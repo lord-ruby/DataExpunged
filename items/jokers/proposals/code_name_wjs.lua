@@ -19,9 +19,9 @@ function Card:is_rarity(rarity, ...)
         if not SCP.rarity_blacklist[self.config.center.rarity] then
             local no_downside = false
             for i, v in pairs(SMODS.find_card("j_scp_code_name_wjs")) do
-                if SCP.no_downside(v) then no_downside = true end
+                if not SCP.downside_active(v) then no_downside = true end
             end
-            if (no_downside and SCP.rarity_blacklist[rarity]) or rarity == "Common" then return true end
+            if (no_downside and not  SCP.rarity_blacklist[rarity]) or rarity == "Common" then return true end
         end
     end
     return is_rarity_ref(self, rarity, ...)
