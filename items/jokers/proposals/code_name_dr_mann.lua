@@ -23,7 +23,7 @@ SMODS.Joker {
                 end
             end
             return {
-                scoring_hand = cards
+                scoring_hand = cards,
             }
         end
     end
@@ -46,6 +46,7 @@ function SMODS.calculate_main_scoring(context, scoring_hand)
 		context.cardarea = G.play
         G.rescore_cards = nil
 	end
+    G.rescore_messages = {}
 	return
 end
 
@@ -72,7 +73,7 @@ function SCP.get_scored_cards(scored_cards)
                 end
                 for i, v in pairs(ret2.scoring_hand) do
                     cards[#cards+1] = v 
-                    messages[#cards] = {message = ret2.message or localize("k_rescore_ex"), colour = ret2.colour or G.C.PURPLE}
+                    messages[#cards] = {message = ret2.message or localize("k_rescore_ex"), card = ret2.card or card}
                 end
             end
         end

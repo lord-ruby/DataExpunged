@@ -19,14 +19,13 @@ if (area[1]) == card and card.config.center.key == "j_entr_false_vacuum_collapse
 end
 if G.rescore_messages and G.rescore_messages[_] then
   card_eval_status_text(
-    card,
+    G.rescore_messages[_].card,
     "extra",
     nil,
     nil,
     nil,
-    { message = G.rescore_messages[_].message, colour = G.rescore_messages[_].colour}
+    { message = G.rescore_messages[_].message, colour = G.C.PURPLE}
   )
-  G.rescore_messages[_] = nil
 end
 '''
 match_indent = true
