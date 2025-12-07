@@ -61,6 +61,48 @@ return {
                     }
                 }
             },
+            j_scp_342 = {
+				name = {
+					"SCP-342",
+					"{C:red,s:0.8}One-Way Ticket",
+				},
+				text = {
+					{
+						"{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-342",
+						"{s:0.9}Object Class{s:0.8}: Euclid",
+						"{s:0.9}Special Containment Procedures:",
+						"{s:0.8}SCP-342 can be safely stored in its case",
+						"{s:0.8}file folder in High Value Items Storage",
+						"{s:0.9}Description:",
+					},
+					{
+                        "Always {C:red}Eternal",
+						"All cards cost {C:attention}zero{}",
+						"Defeating a Boss Blind increases",
+						"Ante by additional {C:attention}1{}",
+					},
+				},
+			},
+            j_scp_342_no_downside = {
+				name = {
+					"SCP-342",
+					"{C:red,s:0.8}One-Way Ticket",
+				},
+				text = {
+					{
+						"{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-342",
+						"{s:0.9}Object Class{s:0.8}: Euclid",
+						"{s:0.9}Special Containment Procedures:",
+						"{s:0.8}SCP-342 can be safely stored in its case",
+						"{s:0.8}file folder in High Value Items Storage",
+						"{s:0.9}Description:",
+					},
+					{
+                        "Always {C:red}Eternal",
+						"All cards cost {C:attention}zero{}",
+					},
+				},
+			},
             j_scp_914 = {
                 name = {
                     "SCP-914",

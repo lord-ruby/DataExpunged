@@ -20,7 +20,8 @@ local tbl= {
                 "code_name_lily",
             },
             one = {
-                "914"
+                "342",
+                "914",
             },
             order = {
                 "proposals"
