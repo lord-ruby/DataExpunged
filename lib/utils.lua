@@ -97,10 +97,21 @@ function SCP.generate_description_localization(args, loc_target)
     if not loc_target[target] then target = "text" end
     if type(loc_target[target]) == 'table' and loc_target.info then
         args.AUT.multi_box = args.AUT.multi_box or {} 
-        local boxes = {
-            loc_target.info_parsed,
-            loc_target[target.."_parsed"]
-        }
+        local boxes = {}
+        if type(loc_target.info[1]) == "table" then
+            for i, v in pairs(loc_target.info_parsed) do
+                boxes[#boxes+1] = v
+            end
+        else
+            boxes[#boxes+1] = loc_target.info_parsed
+        end
+        if type(loc_target[target][1]) == "table" then
+            for i, v in pairs(loc_target[target.."_parsed"]) do
+                boxes[#boxes+1] = v
+            end
+        else
+            boxes[#boxes+1] = loc_target[target.."_parsed"]
+        end
         for i, box in ipairs(boxes) do
             for j, line in ipairs(box) do
                 local final_line = SMODS.localize_box(line, args)

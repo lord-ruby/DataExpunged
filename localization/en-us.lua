@@ -139,7 +139,7 @@ return {
             c_familiar_nodownside = {
                 name = "Familiar",
                 text = {
-                    "Add {C:attention}#2#{} random",
+                    "Add {C:attention}#1#{} random",
                     "{C:attention}Enhanced face cards{}",
                     "to your hand"
                 }
@@ -147,7 +147,7 @@ return {
             c_grim_nodownside = {
                 name = "Grim",
                 text = {
-                    "Add {C:attention}#2#{} random",
+                    "Add {C:attention}#1#{} random",
                     "{C:attention}Enhanced Aces{}",
                     "to your hand"
                 }
@@ -155,7 +155,7 @@ return {
             c_incantation_nodownside = {
                 name = "Incantation",
                 text = {
-                    "Add {C:attention}#2#{} random",
+                    "Add {C:attention}#1#{} random",
                     "{C:attention}Enhanced numbered cards{}",
                     "to your hand"
                 }
