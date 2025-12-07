@@ -20,3 +20,10 @@ else
         --approx 3x more common than a cryptid epic joker
     }
 end
+
+SMODS.Rarity {
+    key = "scp000rarity",
+    badge_colour = G.C.BLACK,
+    badge_text_colour = G.C.RED,
+    default_weight = 0,
+} -- made to facilitate scp-000 aka...... idk bros a pattern screamer what do you want me to say -fireice
