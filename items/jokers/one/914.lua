@@ -68,7 +68,7 @@ SMODS.Joker {
                         end
                         -- destroy AFTER the junk check
                         SMODS.destroy_cards(joker_to_fucking_kill_oh_my_god)
-                        if rarity == rarities[4] and not created_card then
+                        if rarity == "valk_renowned" or rarity == "cry_epic" or rarity == "scp_thaumiel" and not created_card then
                             if not SCP.downside_active(card) or which_way == 1 or which_way == 0 then
                                 created_card = SMODS.add_card{
                                     set = "Joker",
@@ -81,7 +81,7 @@ SMODS.Joker {
                                 }
                             end
                         end
-                        if not created_card then
+                        if not created_card and type(rarity) == "number" then
                             rarity = rarity+which_way
                         end
                         -- create the junk... if zero of course
