@@ -61,48 +61,6 @@ return {
                     }
                 }
             },
-            j_scp_342 = {
-				name = {
-					"SCP-342",
-					"{C:red,s:0.8}One-Way Ticket",
-				},
-				text = {
-					{
-						"{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-342",
-						"{s:0.9}Object Class{s:0.8}: Euclid",
-						"{s:0.9}Special Containment Procedures:",
-						"{s:0.8}SCP-342 can be safely stored in its case",
-						"{s:0.8}file folder in High Value Items Storage",
-						"{s:0.9}Description:",
-					},
-					{
-                        "Always {C:red}Eternal",
-						"All cards cost {C:attention}zero{}",
-						"Defeating a Boss Blind increases",
-						"Ante by additional {C:attention}1{}",
-					},
-				},
-			},
-            j_scp_342_no_downside = {
-				name = {
-					"SCP-342",
-					"{C:red,s:0.8}One-Way Ticket",
-				},
-				text = {
-					{
-						"{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-342",
-						"{s:0.9}Object Class{s:0.8}: Euclid",
-						"{s:0.9}Special Containment Procedures:",
-						"{s:0.8}SCP-342 can be safely stored in its case",
-						"{s:0.8}file folder in High Value Items Storage",
-						"{s:0.9}Description:",
-					},
-					{
-                        "Always {C:red}Eternal",
-						"All cards cost {C:attention}zero{}",
-					},
-				},
-			},
             j_scp_914 = {
                 name = {
                     "SCP-914",
@@ -158,6 +116,24 @@ return {
                         "{C:chips}+0.5{} Chips",
                         "{C:inactive, s:0.85}Look at what you've done."
                     }
+                }
+            },
+            j_scp_000 = {
+                name = {
+                    "SCP-000",
+                },
+                text = {
+                    {
+                        "{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-000",
+                        "{s:0.9}Object Class{s:0.8}: {E:scp_hash,C:mult}1{C:mult}NULL",
+                        "{s:0.9}Special Containment Prodecures{s:0.8}: Field does not exist.",
+                        "{s:0.9}Description{s:0.8}:",
+                    },
+                    {
+                        "Internal system error: Field undefined. Please contact system administrator.",
+                        "Internal system error: Field undefined. Please contact system administrator.",
+                        "InteRиαl Sуѕtєм ERяяσя: FïëlÐ ünÐëƒïnëÐ. ρĿєДšє ςόЛţДςţ šΫšţєΜMM-",
+                    },
                 }
             },
         },
@@ -278,6 +254,7 @@ return {
             k_scp_apollyon = "Apollyon",
             -- not actually a class, SCP-914 just uses this for a special joker
             k_scp_junk = "Junk",
+            k_scp_null = "#NULL", -- only used for scp-000, dont use it anywhere else kthx -fireice
             
             k_scp_914_processed = "Proccessed",
             k_rescore_ex = "Again!?",

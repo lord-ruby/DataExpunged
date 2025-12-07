@@ -20,6 +20,7 @@ local tbl= {
                 "code_name_lily",
             },
             one = {
+                "000",
                 "342",
                 "914",
             },
