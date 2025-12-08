@@ -120,18 +120,18 @@ return {
             },
             j_scp_000 = {
                 name = {
-                    "SCP-000",
+                    "SCP-000"
                 },
                 info = {
                     "{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-000",
                     "{s:0.9}Object Class{s:0.8}: {E:scp_hash,C:mult}1{C:mult}NULL",
-                    "{s:0.9}Special Containment Prodecures{s:0.8}: Field does not exist.",
+                    "{s:0.9}Special Containment Procedures{s:0.8}: Field does not exist.",
                     "{s:0.9}Description{s:0.8}:",
                 },
                 text = {
                     "Internal system error: Field undefined. Please contact system administrator.",
                     "Internal system error: Field undefined. Please contact system administrator.",
-                    "InteRиαl Sуѕtєм ERяяσя: FïëlÐ ünÐëƒïnëÐ. ρĿєДšє ςόЛţДςţ šΫšţєΜMM-",
+                    "InteRиαl{C:dark_edition}+{} Sуѕtєм {C:dark_edition}1{}ERяяσя: FïëlÐ ünÐëƒïnëÐ.Jok ρĿєДšє ςόЛţДςţ eršΫšţєΜMM-    Slot",
                 }
             },
         },
