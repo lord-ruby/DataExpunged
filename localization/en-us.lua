@@ -105,6 +105,26 @@ return {
                     "{C:inactive}(Can't output {C:purple}Legendary{C:inactive} or higher)"
                 }
             },
+            j_scp_8465 = {
+                name = {
+                    "SCP-8465",
+                    "{C:red,s:0.8}Eisoptrophobia: Blackdot"
+                },
+                info = {
+                    "{X:white,C:white, s:0.9}Item: SCP-8465",
+                    "{X:white,C:white,s:0.9}Object Class:{s:0.8} Safe",
+                    "{X:white,C:white,s:0.9}Special Containment Procedures:",
+                    "{s:0.8}SCP-8465 has since been modified to increase",
+                    "{s:0.8}geometric obfuscation and better suit",
+                    "{s:0.8} the structural needs of {X:white,C:white,s:0.8}[REDACTED].{}",
+                    "{s:0.9}Description:",
+                },
+                text = {
+                    "{C:attention}Playing{} a hand with one card",
+                    "{C:attention}duplicates{} that card and",
+                    "adds the {C:dark_edition}Negative{} edition to it",
+                },
+            },
             j_scp_914_below_common = {
                 -- referencing how the destroy animation burns up the card
                 name = {
