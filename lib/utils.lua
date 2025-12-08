@@ -18,12 +18,23 @@ function SCP.get_paths(_table, name)
     local paths = {}
     local root = name or ""
     if _table.order then
-        table.sort(_table, function(a, b)
-            return _table.order[a] > _table.order[b]
+        local tbl = {}
+        for i, v in pairs(_table) do
+            if i ~= "order" then
+                tbl[#tbl+1] = {key = i, tbl = v}
+            end
+        end
+        table.sort(tbl, function(a, b)
+            return _table.order[a.key] > _table.order[b.key]
         end)
+        _table = tbl
     end
     for i, v in pairs(_table) do
         if i ~= "order" then
+            if type(v) == "table" and v.key then
+                i = v.key
+                v = v.tbl
+            end
             if type(v) == "table" then
                 for i2, v2 in pairs(SCP.get_paths(v, root.."/"..i)) do
                     paths[#paths+1] = v2

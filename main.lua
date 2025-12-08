@@ -25,7 +25,8 @@ local tbl= {
                 "914",
             },
             order = {
-                "proposals"
+                proposals = 1,
+                one = 2
             }
         }
     }
