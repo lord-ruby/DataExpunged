@@ -11,3 +11,10 @@ SMODS.Atlas {
     px = 71,
     py = 95,
 }:register()
+
+SMODS.Atlas {
+    key = "noise",
+    path = "noise.png",
+    px = 32,
+    py = 32,
+}:register()

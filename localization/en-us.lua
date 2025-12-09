@@ -121,8 +121,14 @@ return {
                 },
                 text = {
                     "{C:attention}Playing{} a hand with one card",
-                    "{C:attention}duplicates{} that card and",
-                    "adds the {C:dark_edition}Negative{} edition to it",
+                    "has a {C:green}#1# in #2#{} chance to",
+                    "{C:attention}duplicate{} the card",
+                    "otherwise it gets destroyed"
+                },
+                no_downsides_text = {
+                    "{C:attention}Playing{} a hand with one card",
+                    "has a {C:green}#1# in #2#{} chance to",
+                    "{C:attention}duplicate{} the card",
                 },
             },
             j_scp_914_below_common = {
