@@ -1,0 +1,154 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+### Patches to modify drawsteps
+
+# key = 'front', normal case
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+    self.children.front:draw_shader('dissolve')
+end
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if self.children.front and (self.ability.delayed or not self:should_hide_front()) and not self.ability.dataexpunged_flipped then
+    self.children.front:draw_shader('dissolve')
+elseif self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+    self.children.front:draw_shader('dissolve', nil, nil, nil, self.children.center, 0, 1775, 0, 0, nil, nil) 
+end
+'''
+# key = 'front', negative case for some reason?? 
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+    self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
+end
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if self.children.front and (self.ability.delayed or not self:should_hide_front()) and not self.ability.dataexpunged_flipped then
+    self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
+elseif self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+    self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+end
+'''
+
+# key = 'edition',
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if self.children.front and not self:should_hide_front() then
+    self.children.front:draw_shader(v.shader, nil, self.ARGS.send_to_shader)
+end
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if self.children.front and (self.ability.delayed or not self:should_hide_front()) and not self.ability.dataexpunged_flipped then
+    self.children.front:draw_shader(v.shader, nil, self.ARGS.send_to_shader)
+elseif self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+    self.children.front:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+end
+'''
+# key = 'center' (only does anything for jokers and enhancements)
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if (self.edition and self.edition.negative and (not self.delay_edition or self.delay_edition.negative)) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then
+            self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
+        elseif not self:should_draw_base_shader() then
+            -- Don't render base dissolve shader.
+        elseif not self.greyed then
+            self.children.center:draw_shader('dissolve')
+        end
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if (self.edition and self.edition.negative and (not self.delay_edition or self.delay_edition.negative)) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then
+        if not self.ability.dataexpunged_flipped then
+            self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
+        else
+            self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+        end
+
+        elseif not self:should_draw_base_shader() then
+            -- Don't render base dissolve shader.
+        elseif not self.greyed then
+            if not self.ability.dataexpunged_flipped then
+                self.children.center:draw_shader('dissolve')
+            else
+                self.children.center:draw_shader('dissolve', nil, nil, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+            end
+        end
+'''
+
+# key = 'debuff',
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if self.debuff then
+    self.children.center:draw_shader('debuff', nil, self.ARGS.send_to_shader)
+    if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+        self.children.front:draw_shader('debuff', nil, self.ARGS.send_to_shader)
+    end
+end
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if self.debuff and not self.ability.dataexpunged_flipped then
+    self.children.center:draw_shader('debuff', nil, self.ARGS.send_to_shader)
+    if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+        self.children.front:draw_shader('debuff', nil, self.ARGS.send_to_shader)
+    end
+elseif self.debuff then
+    self.children.center:draw_shader('debuff', nil, nil, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+    if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+        self.children.front:draw_shader('debuff', nil, nil, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+    end
+end
+'''
+
+# key = 'greyed',
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if self.greyed then
+    self.children.center:draw_shader('played', nil, self.ARGS.send_to_shader)
+    if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+        self.children.front:draw_shader('played', nil, self.ARGS.send_to_shader)
+    end
+end
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if self.greyed and not self.ability.dataexpunged_flipped then
+    self.children.center:draw_shader('played', nil, self.ARGS.send_to_shader)
+    if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+        self.children.front:draw_shader('played', nil, self.ARGS.send_to_shader)
+    end
+elseif self.greyed then
+    self.children.center:draw_shader('played', nil, nil, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+    if self.children.front and (self.ability.delayed or not self:should_hide_front()) then
+        self.children.front:draw_shader('played', nil, nil, nil, self.children.center, nil, 1775, 0, 0, nil, nil)
+    end
+end
+'''
+
+
+

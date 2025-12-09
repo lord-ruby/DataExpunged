@@ -10,7 +10,9 @@ local tbl= {
         "misc",
         "take_ownership",
         "calculation_keys",
-        "config"
+        "config",
+        "sounds",
+        "frame_dependent",
     },
     items = {
         jokers = {
@@ -24,9 +26,13 @@ local tbl= {
                 "342",
                 "914",
             },
+            nine = {
+                "8465"
+            },
             order = {
                 proposals = 1,
-                one = 2
+                one = 2,
+                nine = 10
             }
         }
     }
