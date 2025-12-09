@@ -1,5 +1,3 @@
-SCP.NOISE_FRAMES = 0
-
 SMODS.Joker {
     key = "8465",
     pos = { x = 0, y = 0 },
@@ -42,14 +40,16 @@ SMODS.Joker {
                             G.E_MANAGER:add_event(Event({
                                 func = function()
                                     _card = copy_card(orig_card)
+                                    _card.ability.dataexpunged_flipped = not _card.ability.dataexpunged_flipped
                                     G.play:emplace(_card)
-                                    _card.ability.dataexpunged_flipped = true
                                     return true
                                 end
                             }))
                             G.E_MANAGER:add_event(Event({
                                 func = function()
                                     SCP.NOISE_FRAMES = 50
+                                    play_sound("scp_static")
+                                    card.ability.dataexpunged_flipped = not card.ability.dataexpunged_flipped
                                     table.insert(G.playing_cards, _card)
                                     draw_card(G.play, G.discard, 100, 'down', false, _card)
                                     return true
@@ -61,13 +61,15 @@ SMODS.Joker {
             else
                 if SCP.downside_active(card) and context.destroy_card and context.destroy_card == context.scoring_hand[1] then
                     return {
-                        --remove = true,
+                        remove = true,
                          func = function()
                             local _card = context.scoring_hand[1]
                             G.E_MANAGER:add_event(Event({
                                 func = function()
                                     SCP.NOISE_FRAMES = 50
+                                    play_sound("scp_static")
                                     _card:start_dissolve({G.C.RED}, true, 0, true)
+                                    --G.discard:remove_card(_card)
                                     return true
                                 end
                             }))
@@ -78,28 +80,3 @@ SMODS.Joker {
         end
     end
 }
-
-function SCP.update()
-    SCP.NOISE_FRAMES = SCP.NOISE_FRAMES - 1
-end
-
-function SCP.draw()
-    if SCP.NOISE_FRAMES > 0 then
-        love.graphics.setCanvas(G.CANVAS)
-        love.graphics.scale(G.CANV_SCALE)
-
-        local wid, hei = love.graphics.getDimensions()
-
-        love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.draw(
-            G.ASSET_ATLAS["scp_noise"].image,
-            love.graphics.newQuad(0, 0, 1, 1, 1, 1),
-            0,
-            0,
-            0,
-            wid,
-            hei,
-            0, 0
-        )
-    end
-end

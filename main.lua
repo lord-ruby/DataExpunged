@@ -10,7 +10,9 @@ local tbl= {
         "misc",
         "take_ownership",
         "calculation_keys",
-        "config"
+        "config",
+        "sounds",
+        "frame_dependent",
     },
     items = {
         jokers = {
