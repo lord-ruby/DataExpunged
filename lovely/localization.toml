@@ -70,15 +70,17 @@ match_indent = true
 payload = '''
 for ind, tbl in pairs(center) do
     if ind ~= "name" and ind ~= "text" and ind ~= "text_parsed" and not string.find(ind, "_parsed") then
-        center[ind.."_parsed"] = {}
-        for _, line in ipairs(center[ind]) do
-            if type(line) == 'table' then
-                center[ind.."_parsed"][#center[ind.."_parsed"]+1] = {}
-                for _, new_line in ipairs(line) do
-                    center[ind.."_parsed"][#center[ind.."_parsed"]][#center[ind.."_parsed"][#center[ind.."_parsed"]]+1] = loc_parse_string(new_line)
+        if type(center[ind]) == "table" then
+            center[ind.."_parsed"] = {}
+            for _, line in ipairs(center[ind]) do
+                if type(line) == 'table' then
+                    center[ind.."_parsed"][#center[ind.."_parsed"]+1] = {}
+                    for _, new_line in ipairs(line) do
+                        center[ind.."_parsed"][#center[ind.."_parsed"]][#center[ind.."_parsed"][#center[ind.."_parsed"]]+1] = loc_parse_string(new_line)
+                    end
+                else
+                    center[ind.."_parsed"][#center[ind.."_parsed"]+1] = loc_parse_string(line)
                 end
-            else
-                center[ind.."_parsed"][#center[ind.."_parsed"]+1] = loc_parse_string(line)
             end
         end
     end
