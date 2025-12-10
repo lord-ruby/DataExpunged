@@ -18,6 +18,7 @@ local tbl= {
         jokers = {
             proposals = {
                 "code_name_dr_mann",
+                "code_name_s_d_locke",
                 "code_name_wjs",
                 "code_name_lily",
             },

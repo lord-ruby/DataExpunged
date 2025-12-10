@@ -148,3 +148,88 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
     G._loc_card = nil
     return ret
 end
+
+--stolen from entropy
+SCP.get_dummy = function(center, area, self)
+    local abil = copy_table(center.config) or {}
+    abil.consumeable = copy_table(abil)
+    abil.name = center.name or center.key
+    abil.set = "Joker"
+    abil.t_mult = abil.t_mult or 0
+    abil.t_chips = abil.t_chips or 0
+    abil.x_mult = abil.x_mult or abil.Xmult or 1
+    abil.extra_value = abil.extra_value or 0
+    abil.d_size = abil.d_size or 0
+    abil.mult = abil.mult or 0
+    abil.effect = center.effect
+    abil.h_size = abil.h_size or 0
+    abil.card_limit = abil.card_limit or 1
+    abil.extra_slots_used = abil.extra_slots_used or 0
+    local eligible_editionless_jokers = {}
+    for i, v in pairs(G.jokers and G.jokers.cards or {}) do
+        if not v.edition then
+            eligible_editionless_jokers[#eligible_editionless_jokers+1] = v
+        end
+    end
+    local tbl = {
+        ability = abil,
+        config = {
+            center = center,
+            center_key = center.key
+        },
+        juice_up = function(_, ...)
+            return self:juice_up(...)
+        end,
+        start_dissolve = function(_, ...)
+            return self:start_dissolve(...)
+        end,
+        remove = function(_, ...)
+            return self:remove(...)
+        end,
+        flip = function(_, ...)
+            return self:flip(...)
+        end,
+        use_consumeable = function(self, ...)
+            self.bypass_echo = true
+            local ret = Card.use_consumeable(self, ...)
+            self.bypass_echo = nil
+        end,
+        can_use_consumeable = function(self, ...)
+            return Card.can_use_consumeable(self, ...)
+        end,
+        calculate_joker = function(self, ...)
+            return Card.calculate_joker(self, ...)
+        end,
+        can_calculate = function(self, ...)
+            return Card.can_calculate(self, ...)
+        end,
+        set_cost = function(self, ...)
+            Card.set_cost(self, ...)
+        end,
+        calculate_sticker = function(self, ...)
+            Card.calculate_sticker(self, ...)
+        end,
+        base_cost = 1,
+        extra_cost = 0,
+        original_card = self,
+        area = area,
+        added_to_deck = added_to_deck,
+        cost = self.cost,
+        sell_cost = self.sell_cost,
+        eligible_strength_jokers = eligible_editionless_jokers,
+        eligible_editionless_jokers = eligible_editionless_jokers,
+        T = self.t,
+        VT = self.VT
+    }
+    for i, v in pairs(Card) do
+        if type(v) == "function" and i ~= "flip_side" then
+            tbl[i] = function(_, ...)
+                return v(self, ...)
+            end
+        end
+    end
+    tbl.set_edition = function(s, ed, ...)
+        Card.set_edition(s, ed, ...)
+    end 
+    return tbl
+end

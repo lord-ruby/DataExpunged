@@ -36,6 +36,26 @@ return {
                     "{C:inactive}(Excludes {C:purple}Legendary{C:inactive} or higher)"
                 }
             },
+            j_scp_code_name_s_d_locke = {
+                name = {
+                    "CODE NAME: S. D. Locke",
+                    "{C:red,s:0.8}When Day Breaks"
+                },
+                info = {
+                    "{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-001",
+                    "{s:0.9}Object Class{s:0.8}: Apollyon",
+                    "{s:0.9}Special Containment Procedures:",
+                    "{s:0.8}Due to its nature SCP-001 cannot be contained.",
+                    "{s:0.9}Description:",
+                },
+                text = {
+                    "If played hand has exactly",
+                    "{C:attention}2{} cards merge",
+                    "them into {C:attention}1{} card",
+                    "with stacked {C:attention}Seals",
+                    "{C:attention}Editions{}, and {C:attention}Enhancements"
+                }
+            },
             j_scp_code_name_dr_mann = {
                 name = {
                     "CODE NAME: Dr. Mann",
@@ -160,6 +180,15 @@ return {
                     "InteRиαl{C:dark_edition}+{} Sуѕtєм {C:dark_edition}1{}ERяяσя: FïëlÐ ünÐëƒïnëÐ.Jok ρĿєДšє ςόЛţДςţ eršΫšţєΜMM-    Slot",
                 }
             },
+        },
+        Enhanced = {
+            m_scp_dissolved = {
+                name = "Dissolved Card",
+                text = {
+                    "Retrigger this card",
+                    "{C:attention}#1#{} times"
+                }
+            }
         },
         Spectral = {
             c_familiar_nodownside = {
