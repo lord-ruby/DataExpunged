@@ -196,7 +196,7 @@ return {
                     "{s:0.9}Description:",
                 },
                 text = {
-                    "After 1 round sell",
+                    "After {C:attention}1{} round, sell",
                     "this SCP to create",
                     "{C:attention}SCP-6747-A3{} and {C:attention}SCP-6747-B{}",
                     "{C:inactive}(#1#)",
@@ -243,7 +243,7 @@ return {
                 },
                 text = {
                     {
-                        "When a blind is selected,",
+                        "When a {C:attention}Blind{} is selected,",
                         "{C:attention}destroy{} a random Joker",
                         "and recreate it with {C:attention}Rental",
                         "or {C:attention}Perishable{}",
