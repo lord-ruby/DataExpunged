@@ -50,7 +50,7 @@ return {
                 },
                 text = {
                     "If played hand has exactly",
-                    "{C:attention}2{} cards merge",
+                    "{C:attention}2{} cards, merge",
                     "them into {C:attention}1{} card",
                     "with stacked {C:attention}Seals",
                     "{C:attention}Editions{}, and {C:attention}Enhancements"
@@ -142,7 +142,7 @@ return {
                 text = {
                     "{C:attention}Playing{} a hand with one card",
                     "has a {C:green}#1# in #2#{} chance to",
-                    "{C:attention}duplicate{} the card",
+                    "{C:attention}duplicate{} the card,",
                     "otherwise it gets destroyed"
                 },
                 no_downsides_text = {
@@ -177,7 +177,7 @@ return {
                 text = {
                     "Internal system error: Field undefined. Please contact system administrator.",
                     "Internal system error: Field undefined. Please contact system administrator.",
-                    "InteRиαl{C:dark_edition}+{} Sуѕtєм {C:dark_edition}1{}ERяяσя: FïëlÐ ünÐëƒïnëÐ.Jok ρĿєДšє ςόЛţДςţ eršΫšţєΜMM-    Slot",
+                    "InteRиαl{C:dark_edition}+{} Sуѕtєм {C:dark_edition}1{}ERяяσя: FïëlÐ ünÐëƒïnëÐ.Jok ρĿєДšє ςόЛţДςţ eršΫšţєΜMM-    Slot",  --can we make this use misprintized text please
                 }
             },
 
@@ -243,20 +243,20 @@ return {
                 },
                 text = {
                     {
-                        "When a blind is selected",
+                        "When a blind is selected,",
                         "{C:attention}destroy{} a random Joker",
                         "and recreate it with {C:attention}Rental",
                         "or {C:attention}Perishable{}",
                     },
                     {
-                        "After {C:attention}#1#{} Jokers sacrificed",
+                        "After {C:attention}#1#{} Jokers sacrificed,",
                         "{C:red}self-destruct{} remove {C:attention}SCP-6747-A3",
                         "and create {C:attention}SCP-6747-C",
                         "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)"
                     }
                 },
                 no_downsides_text = {
-                    "After {C:attention}#1#{} Blinds selected",
+                    "After {C:attention}#1#{} Blinds selected,",
                     "{C:red}self-destruct{} remove {C:attention}SCP-6747-A3",
                     "and create {C:attention}SCP-6747-C",
                     "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)"
