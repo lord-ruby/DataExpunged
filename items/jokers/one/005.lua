@@ -4,7 +4,7 @@ SMODS.Joker {
     config = { extra = { boo = true } },
     classification = "safe",
     cost = 4, -- dummy price, update later
-    rarity = 1,
+    rarity = 3, --why the fuck was this a common. anyways idk if it should be rare or epic or whatever
     calculate = function(self, card, context)
 
     end,
