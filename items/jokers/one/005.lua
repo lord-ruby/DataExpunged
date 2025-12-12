@@ -37,29 +37,10 @@ function Card:set_cost()
     card_set_cost_ref(self)
     
     if next(SMODS.find_card("j_scp_005")) then
-        if (self.ability.set == 'Tarot' or (self.ability.set == 'Booster' and self.config.center.kind == 'Arcana')) then
+        if self.ability.set == 'Booster' then
             self.cost = 0
+            self.sell_cost = 0
+            self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
         end
     end
-    
-    if next(SMODS.find_card("j_scp_005")) then
-        if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.config.center.kind == 'Celestial')) then
-            self.cost = 0
-        end
-    end
-    
-    if next(SMODS.find_card("j_scp_005")) then
-        if (self.ability.set == 'Spectral' or (self.ability.set == 'Booster' and self.config.center.kind == 'Spectral')) then
-            self.cost = 0
-        end
-    end
-    
-    if next(SMODS.find_card("j_scp_005")) then
-        if (self.ability.set == 'Enhanced' or (self.ability.set == 'Booster' and self.config.center.kind == 'Standard')) then
-            self.cost = 0
-        end
-    end
-    
-    self.sell_cost = math.max(1, math.floor(self.cost / 2)) + (self.ability.extra_value or 0)
-    self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
 end

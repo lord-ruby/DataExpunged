@@ -175,9 +175,12 @@ return {
                     "{s:0.9}Description{s:0.8}:",
                 },
                 text = {
-                    "Internal system error: Field undefined. Please contact system administrator.",
-                    "Internal system error: Field undefined. Please contact system administrator.",
-                    "InteRиαl{C:dark_edition}+{} Sуѕtєм {C:dark_edition}1{}ERяяσя: FïëlÐ ünÐëƒïnëÐ.Jok ρĿєДšє ςόЛţДςţ eršΫšţєΜMM-    Slot",
+                    "Internal system error: Field undefined.",
+                    "Please contact system administrator.",
+                    "Internal system error: Field undefined.",
+                    "Please contact system administrator.", 
+                    "InteRиαl{C:dark_edition}+{} Sуѕtєм {C:dark_edition}1{}",
+                    "ERяяσя: FïëlÐ ünÐëƒïnëÐ.Jok ρĿєДšє ςόЛţДςţ eršΫšţєΜMM-    Slot"
                 }
             },
 
@@ -287,7 +290,8 @@ return {
                 info = {
                     "{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-005",
                     "{s:0.9}Object Class{s:0.8}: Safe",
-                    "{s:0.9}Special Containment Procedures{s:0.8}: Object poses no immediate risk.",
+                    "{s:0.9}Special Containment Procedures{s:0.8}:",
+                    "{s:0.8}Object poses no immediate risk.",
                     "{s:0.9}Description{s:0.8}:",
                 },
                 text = {
@@ -302,11 +306,12 @@ return {
                 info = {
                     "{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-055",
                     "{s:0.9}Object Class{s:0.8}: Keter",
-                    "{s:0.9}Special Containment Procedures{s:0.8}: Object is kept in a 5x5x2.5 [m] cement room.",
+                    "{s:0.9}Special Containment Procedures{s:0.8}:",
+                    "{s:0.8}Object is kept in a 5x5x2.5 [m] cement room.",
                     "{s:0.9}Description{s:0.8}:",
                 },
                 text = {
-                    "{E:1,C:dark_edition,s:2.5}What does it do again?"
+                    "{E:1,C:dark_edition}What does it do again?"
                 }
             },
         },
