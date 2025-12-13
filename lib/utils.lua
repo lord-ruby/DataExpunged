@@ -65,18 +65,36 @@ function SCP.merge_tables(tbl1, tbl2)
     end
 end
 
+local card_click_ref = Card.click
+function Card:click(...)
+    if G.SETTINGS.paused then
+        local center = self.config.center
+        if ((center.set == "Joker" and center.original_mod and center.original_mod.id == SCP.id) or (center.has_info)) then
+            self.ability.show_info = not self.ability.show_info
+            G.show_info = G.show_info or {}
+            G.show_info[self.config.center_key] = self.ability.show_info
+            self:juice_up()
+            return
+        end
+    end
+    return card_click_ref(self, ...)
+end
+
 function SCP.generate_description_localization(args, loc_target)
     if not args.card then args.card = G._loc_card end
     if not loc_target then return end
-    if args.card and args.card.ability.show_info == nil and SCP.config.default_info and not G.SETTINGS.paused then
+    if args.card and args.card.ability.show_info == nil and ((SCP.config.default_info and not G.SETTINGS.paused) or (G.SETTINGS.paused and SCP.config.info_in_collection)) then
         args.card.ability.show_info = true
+    end
+    if args.card and G.show_info and G.show_info[args.card.config.center_key] ~= nil and G.SETTINGS.paused then
+        args.card.ability.show_info = G.show_info[args.card.config.center_key]
     end
     local target = args.card and not SCP.downside_active(args.card) and "no_downsides_text" or "text"
     if not loc_target[target] then target = "text" end
     if type(loc_target[target]) == 'table' and loc_target.info then
         args.AUT.multi_box = args.AUT.multi_box or {} 
         local boxes = {}
-        if (args.card and args.card.ability.show_info) or (G.SETTINGS.paused and SCP.config.info_in_collection) then  
+        if (args.card and args.card.ability.show_info) then  
             if type(loc_target.info[1]) == "table" then
                 for i, v in pairs(loc_target.info_parsed) do
                     boxes[#boxes+1] = v
