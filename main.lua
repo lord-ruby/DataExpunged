@@ -27,7 +27,7 @@ local tbl= {
 
     "items/jokers/two/1546",
 
-    "items/jokers/three/tendots",
+    "items/jokers/three/2521",
 
     "items/jokers/seven/6747",
 

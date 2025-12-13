@@ -323,8 +323,9 @@ return {
                     "{s:0.9}Item {E:scp_hash}1{s:0.8}: SCP-055",
                     "{s:0.9}Object Class{s:0.8}: Safe",
                     "{s:0.9}Special Containment Procedures{s:0.8}:",
-                    "{s:0.8}SCP-1546 is to be contained in a triple-locked",
-                    "{s:0.8}safe at Site 38, with access to the safe principally",
+                    "{s:0.8}SCP-1546 is to be contained in a",
+                    "{s:0.8}triple-locked safe at Site 38,",
+                    "{s:0.8}with access to the safe principally",
                     "{s:0.8}restricted to the head researcher, Dr. {X:black,C:black,s:0.8}AAAAAA{}",
                     "{s:0.9}Description{s:0.8}:",
                 },
@@ -342,12 +343,13 @@ return {
                     "the {C:attention}poker{} hand"
                 }
             },
-            j_scp_tendots = {
+            j_scp_2521 = {
                 name = {
-                    ""
+                    --horrible trial and error but basically only 2521 will use this
+                    "{f:scp_2521} O OI O O O O OI O OI O"
                 },
                 info = {
-                    "{s:0.9}Item {E:scp_hash}1{s:0.8}: OO/OOOOO/OO/O",
+                    "{s:0.9}Item {E:scp_hash}1{s:0.8}: {f:scp_2521,s:0.8}O O I O O O O O I O O I O ",
                     "{s:0.9}Object Class{s:0.8}: Keter",
                     "{s:0.9}Special Containment Procedures{s:0.8}:",
                     "{s:0.8}Due to its infohazardous nature; Object is",
