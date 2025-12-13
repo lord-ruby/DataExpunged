@@ -10,11 +10,18 @@ SMODS.Atlas {
     path = "customjokers.png",
     px = 71,
     py = 95,
-}:register()
+}
 
 SMODS.Atlas {
     key = "noise",
     path = "noise.png",
     px = 32,
     py = 32,
-}:register()
+}
+
+SMODS.Atlas {
+    key = "2521_info",
+    path = "2521_info.png",
+    px = 61,
+    py = 76,
+}

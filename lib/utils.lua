@@ -73,12 +73,14 @@ function SCP.generate_description_localization(args, loc_target)
     if type(loc_target[target]) == 'table' and loc_target.info then
         args.AUT.multi_box = args.AUT.multi_box or {} 
         local boxes = {}
-        if type(loc_target.info[1]) == "table" then
-            for i, v in pairs(loc_target.info_parsed) do
-                boxes[#boxes+1] = v
+        if args.card.ability.show_info or G.SETTINGS.paused then  
+            if type(loc_target.info[1]) == "table" then
+                for i, v in pairs(loc_target.info_parsed) do
+                    boxes[#boxes+1] = v
+                end
+            else
+                boxes[#boxes+1] = loc_target.info_parsed
             end
-        else
-            boxes[#boxes+1] = loc_target.info_parsed
         end
         if type(loc_target[target][1]) == "table" then
             for i, v in pairs(loc_target[target.."_parsed"]) do
@@ -216,4 +218,64 @@ function SCP.area_has_room(area, num)
     else
         return #G[area].cards < G[area].config.card_limit
     end
+end
+
+local G_UIDEF_use_and_sell_buttons_ref = G.UIDEF.use_and_sell_buttons
+function G.UIDEF.use_and_sell_buttons(card)
+	local abc = G_UIDEF_use_and_sell_buttons_ref(card)
+    local center = card.config.center
+    if card.area == G.jokers and ((center.set == "Joker" and center.original_mod and center.original_mod.id == SCP.id) or (center.has_info)) then
+        sell = {n=G.UIT.C, config={align = "cr"}, nodes={
+            {n=G.UIT.C, config={ref_table = card, align = "cr",padding = 0.1, r=0.08, minw = 1.25, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'sell_card', func = 'can_sell_card', handy_insta_action = 'sell'}, nodes={
+              {n=G.UIT.B, config = {w=0.1,h=0.6}},
+              {n=G.UIT.C, config={align = "tm"}, nodes={
+                {n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
+                  {n=G.UIT.T, config={text = localize('b_sell'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
+                }},
+                {n=G.UIT.R, config={align = "cm"}, nodes={
+                  {n=G.UIT.T, config={text = localize('$'),colour = G.C.WHITE, scale = 0.4, shadow = true}},
+                  {n=G.UIT.T, config={ref_table = card, ref_value = 'sell_cost_label',colour = G.C.WHITE, scale = 0.55, shadow = true}}
+                }}
+              }}
+            }},
+        }}
+        info = {n=G.UIT.C, config={align = "cr"}, nodes={
+            {n=G.UIT.C, config={ref_table = card, align = "cm",padding = 0.1, r=0.08, minw = 1.25, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, button = 'show_info', func = 'can_show_info'}, nodes={
+              {n=G.UIT.B, config = {w=0.1,h=0.3}},
+              {n=G.UIT.C, config={align = "tm"}, nodes={
+                {n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
+                  {n=G.UIT.T, config={text = localize("k_show_info"),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
+                }},
+              }}
+            }},
+        }}
+        return {
+            n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+              {n=G.UIT.C, config={padding = 0, align = 'cl'}, nodes={
+                {n=G.UIT.R, config={align = 'cl'}, nodes={
+                  sell
+                }},
+                {n=G.UIT.R, config={align = 'cl'}, nodes={
+                  info
+                }},
+            }},
+        }}
+    end
+end
+
+G.FUNCS.can_show_info = function(e)
+    local center = e.config.ref_table.config.center
+    if
+        not G.CONTROLLER.locked
+    then
+        e.config.colour = G.C.SCP_THAUMIEL
+        e.config.button = "show_info"
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+G.FUNCS.show_info = function(e)
+    e.config.ref_table.ability.show_info = not e.config.ref_table.ability.show_info
+    e.config.ref_table:juice_up()
 end

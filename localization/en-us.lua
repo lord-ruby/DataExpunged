@@ -349,12 +349,7 @@ return {
                     "{f:scp_2521} O OI O O O O OI O OI O"
                 },
                 info = {
-                    "{s:0.9}Item {E:scp_hash}1{s:0.8}: {f:scp_2521,s:0.8}O O I O O O O O I O O I O ",
-                    "{s:0.9}Object Class{s:0.8}: Keter",
-                    "{s:0.9}Special Containment Procedures{s:0.8}:",
-                    "{s:0.8}Due to its infohazardous nature; Object is",
-                    "{s:0.8}effectively self-containing.",
-                    "{s:0.9}Description{s:0.8}:",
+                    "{IMG:scp_2521_info,s:2}a{}"
                 },
                 text = {
                     ""
@@ -504,7 +499,9 @@ return {
             k_contributors_2 = "CONTRIBUTOR PAGE REPOSITORY",
 
             k_inactive = "Inactive",
-            k_active = "Active"
+            k_active = "Active",
+
+            k_show_info = "SHOW INFO"
         }
     }
 }
