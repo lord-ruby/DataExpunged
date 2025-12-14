@@ -1,7 +1,7 @@
 --haha funny 2521 but please keep the code organised
 SMODS.Joker {
     key = "2521",
-    pos = {x = 1, y = 0},
+    pos = {x = 3, y = 0},
     atlas = "customjokers",
     config = { extra = { cards = 3 } },
     classification = "keter",

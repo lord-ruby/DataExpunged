@@ -1,0 +1,22 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = '''cardarea.lua'''
+pattern = '''
+if location == 'front' or self.config.type == 'deck' then 
+        table.insert(self.cards, 1, card)
+else
+'''
+position = 'at'
+match_indent = true
+payload = '''
+if location == 'front' or self.config.type == 'deck' then 
+    table.insert(self.cards, 1, card)
+elseif type(location) == "number" then
+    table.insert(self.cards, location, card)
+else
+'''
