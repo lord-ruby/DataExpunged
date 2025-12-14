@@ -109,10 +109,12 @@ position = "before"
 payload = '''
 elseif part.control.IMG then
     local sprite_mod = (part.control.s and tonumber(part.control.s) or 1) * desc_scale
+    local atlas = SMODS.get_atlas(part.control.IMG)
+    local w_mod = atlas.px / atlas.py
     final_line[#final_line + 1] = {
         n = G.UIT.O,
         config = {
-            object = SMODS.create_sprite(0, 0, sprite_mod, sprite_mod, part.control.IMG, {x = 0, y = 0})
+            object = SMODS.create_sprite(0, 0, sprite_mod * w_mod, sprite_mod, atlas, {x = 0, y = 0})
         }
     }
 '''
@@ -127,11 +129,12 @@ position = "before"
 payload = '''
 elseif part.control.IMG then
     local sprite_mod = (part.control.s and tonumber(part.control.s) or 1) * desc_scale
-    local w_mod = G.ASSET_ATLAS[part.control.IMG].px / G.ASSET_ATLAS[part.control.IMG].py
+    local atlas = SMODS.get_atlas(part.control.IMG)
+    local w_mod = atlas.px / atlas.py
     final_line[#final_line + 1] = {
         n = G.UIT.O,
         config = {
-            object = SMODS.create_sprite(0, 0, sprite_mod * w_mod, sprite_mod, part.control.IMG, {x = 0, y = 0})
+            object = SMODS.create_sprite(0, 0, sprite_mod * w_mod, sprite_mod, atlas, {x = 0, y = 0})
         }
     }
 '''

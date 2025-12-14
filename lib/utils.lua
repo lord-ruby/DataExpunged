@@ -282,6 +282,7 @@ function G.UIDEF.use_and_sell_buttons(card)
             }},
         }}
     end
+    return abc
 end
 
 G.FUNCS.can_show_info = function(e)
