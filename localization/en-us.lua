@@ -352,7 +352,21 @@ return {
                     "{IMG:scp_2521_info,s:2}a{}"
                 },
                 text = {
-                    ""
+                    "{IMG:scp_2521_desc}a{}"
+                }
+            },
+            j_scp_2521_accessibility = {
+                name = {
+                    --horrible trial and error but basically only 2521 will use this
+                    "{f:scp_2521} O OI O O O O OI O OI O"
+                },
+                info = {
+                    "{IMG:scp_2521_info,s:2}a{}"
+                },
+                text = {
+                    "Create {C:attention}#1#{} Tendril cards",
+                    "and add them to hand",
+                    "when blind is {C:attention}selected{}"
                 }
             },
         },
@@ -362,6 +376,20 @@ return {
                 text = {
                     "Retrigger this card",
                     "{C:attention}#1#{} times"
+                }
+            },
+            m_scp_tendril = {
+                name = "OOIOOOOOIOOIO",
+                text = {
+                    "{IMG:scp_2521_desc}a{}"
+                }
+            },
+            m_scp_tendril_accessibility = {
+                name = "OOIOOOOOIOOIO",
+                text = {
+                    "Destroys {C:attention}adjacent{} cards",
+                    "when triggered",
+                    "{C:red}Self-destructs{} at end of round"
                 }
             }
         },

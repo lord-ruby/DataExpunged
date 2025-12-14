@@ -148,7 +148,7 @@ local scpConfigTab = function()
 		active_colour = G.C.RED,
         inactive_colour = G.C.WHITE,
 		ref_table = SCP.config,
-		ref_value = "accessbility_mode",
+		ref_value = "accessibility_mode",
         text_colour = G.C.BLACK,
         outline_colour = G.C.BLACK
 	})

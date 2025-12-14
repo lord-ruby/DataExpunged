@@ -34,3 +34,10 @@ local tbl= {
     "items/jokers/nine/8465",
 }
 SCP.load_table(tbl)
+
+SCP.optional_features = {
+    cardareas = {
+		deck = true,
+		discard = true,
+	},
+}

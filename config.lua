@@ -1,5 +1,5 @@
 return {
-    accessbility_mode = false,
+    accessibility_mode = false,
     default_info = true,
     info_in_collection = true
 }
