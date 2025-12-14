@@ -12,6 +12,8 @@ local tbl= {
     "lib/config",
     "lib/sounds",
     "lib/frame_dependent",
+    "lib/shaders",
+    "lib/drawsteps",
 
     "items/jokers/one/000",
 
@@ -26,6 +28,8 @@ local tbl= {
     "items/jokers/one/914",
 
     "items/jokers/seven/6747",
+
+    "items/jokers/eight/7176",
 
     "items/jokers/nine/8465",
 }

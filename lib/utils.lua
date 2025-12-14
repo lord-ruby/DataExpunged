@@ -8,8 +8,10 @@
 
 function SCP.load_table(table)
     for i, v in pairs(table) do
-        local f, err = SMODS.load_file(v..".lua")
-        if err then error(err); return end
+        local f, err = SMODS.load_file(v .. ".lua")
+        if err then
+            error(err); return
+        end
         if f then f() end
     end
 end
@@ -35,16 +37,17 @@ function SCP.localize_classification(center, rarity)
         if not SCP.rarity_blacklist[center.rarity] and next(SMODS.find_card("j_scp_code_name_wjs")) then
             class = "safe"
         end
-        return localize("k_scp_"..class)
+        return localize("k_scp_" .. class)
     end
-    local vanilla_rarity_keys = {localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary')}
+    local vanilla_rarity_keys = { localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize(
+        'k_legendary') }
     if center and not SCP.rarity_blacklist[center.rarity] and next(SMODS.find_card("j_scp_code_name_wjs")) then
         rarity = 1
     end
     if (vanilla_rarity_keys)[rarity] then
         return vanilla_rarity_keys[rarity] --compat layer in case function gets the int of the rarity
     else
-        return localize("k_"..rarity:lower())
+        return localize("k_" .. rarity:lower())
     end
 end
 
@@ -61,7 +64,7 @@ end
 
 function SCP.merge_tables(tbl1, tbl2)
     for i, v in pairs(tbl2) do
-        tbl1[#tbl1+1]=v
+        tbl1[#tbl1 + 1] = v
     end
 end
 
@@ -71,33 +74,36 @@ function SCP.generate_description_localization(args, loc_target)
     local target = args.card and not SCP.downside_active(args.card) and "no_downsides_text" or "text"
     if not loc_target[target] then target = "text" end
     if type(loc_target[target]) == 'table' and loc_target.info then
-        args.AUT.multi_box = args.AUT.multi_box or {} 
+        args.AUT.multi_box = args.AUT.multi_box or {}
         local boxes = {}
         if type(loc_target.info[1]) == "table" then
             for i, v in pairs(loc_target.info_parsed) do
-                boxes[#boxes+1] = v
+                boxes[#boxes + 1] = v
             end
         else
-            boxes[#boxes+1] = loc_target.info_parsed
+            boxes[#boxes + 1] = loc_target.info_parsed
         end
         if type(loc_target[target][1]) == "table" then
-            for i, v in pairs(loc_target[target.."_parsed"]) do
-                boxes[#boxes+1] = v
+            for i, v in pairs(loc_target[target .. "_parsed"]) do
+                boxes[#boxes + 1] = v
             end
         else
-            boxes[#boxes+1] = loc_target[target.."_parsed"]
+            boxes[#boxes + 1] = loc_target[target .. "_parsed"]
         end
         for i, box in ipairs(boxes) do
             for j, line in ipairs(box) do
                 local final_line = SMODS.localize_box(line, args)
                 if i == 1 or next(args.AUT.info) then
-                    args.nodes[#args.nodes+1] = final_line -- Sends main box to AUT.main
+                    args.nodes[#args.nodes + 1] = final_line -- Sends main box to AUT.main
                     if not next(args.AUT.info) then args.nodes.main_box_flag = true end
-                elseif not next(args.AUT.info) then 
-                    args.AUT.multi_box[i-1] = args.AUT.multi_box[i-1] or {}
-                    args.AUT.multi_box[i-1][#args.AUT.multi_box[i-1]+1] = final_line
+                elseif not next(args.AUT.info) then
+                    args.AUT.multi_box[i - 1] = args.AUT.multi_box[i - 1] or {}
+                    args.AUT.multi_box[i - 1][#args.AUT.multi_box[i - 1] + 1] = final_line
                 end
-                if not next(args.AUT.info) then args.AUT.box_colours[i] = args.vars.box_colours and args.vars.box_colours[i] or G.C.UI.BACKGROUND_WHITE end
+                if not next(args.AUT.info) then
+                    args.AUT.box_colours[i] = args.vars.box_colours and
+                        args.vars.box_colours[i] or G.C.UI.BACKGROUND_WHITE
+                end
             end
         end
         return true
@@ -107,7 +113,8 @@ end
 local generate_ui_ref = generate_card_ui
 function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card, ...)
     G._loc_card = card
-    local ret = generate_ui_ref(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card, ...)
+    local ret = generate_ui_ref(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end,
+        card, ...)
     G._loc_card = nil
     return ret
 end
@@ -131,7 +138,7 @@ SCP.get_dummy = function(center, area, self)
     local eligible_editionless_jokers = {}
     for i, v in pairs(G.jokers and G.jokers.cards or {}) do
         if not v.edition then
-            eligible_editionless_jokers[#eligible_editionless_jokers+1] = v
+            eligible_editionless_jokers[#eligible_editionless_jokers + 1] = v
         end
     end
     local tbl = {
@@ -193,13 +200,15 @@ SCP.get_dummy = function(center, area, self)
     end
     tbl.set_edition = function(s, ed, ...)
         Card.set_edition(s, ed, ...)
-    end 
+    end
     tbl.get_chip_h_x_mult = function(s, ...)
-        local ret = SMODS.multiplicative_stacking(s.ability.h_x_mult or 1, (not s.ability.extra_enhancement and s.ability.perma_h_x_mult) or 0)
+        local ret = SMODS.multiplicative_stacking(s.ability.h_x_mult or 1,
+            (not s.ability.extra_enhancement and s.ability.perma_h_x_mult) or 0)
         return ret
     end
     tbl.get_chip_x_mult = function(s, ...)
-        local ret = SMODS.multiplicative_stacking(s.ability.x_mult or 1, (not s.ability.extra_enhancement and s.ability.perma_x_mult) or 0)
+        local ret = SMODS.multiplicative_stacking(s.ability.x_mult or 1,
+            (not s.ability.extra_enhancement and s.ability.perma_x_mult) or 0)
         return ret
     end
     return tbl
@@ -212,8 +221,267 @@ end
 function SCP.area_has_room(area, num)
     if not num then num = 1 end
     if area == "joker" or area == "consumeable" then
-        return G.GAME[area.."_buffer"] + #G[area.."s"].cards < G[area.."s"].config.card_limit
+        return G.GAME[area .. "_buffer"] + #G[area .. "s"].cards < G[area .. "s"].config.card_limit
     else
         return #G[area].cards < G[area].config.card_limit
     end
+end
+
+---Modified `change_background_colour()` to allow passing timer types
+---@param args table
+function SCP.ease_background_colour_timer(args)
+    for k, v in pairs(G.C.BACKGROUND) do
+        if args.new_colour and (k == 'C' or k == 'L' or k == 'D') then
+            if args.special_colour and args.tertiary_colour then
+                local col_key = k == 'L' and 'new_colour' or k == 'C' and 'special_colour' or
+                    k == 'D' and 'tertiary_colour'
+                ease_value(v, 1, args[col_key][1] - v[1], false, args.timer or nil, true, 0.6)
+                ease_value(v, 2, args[col_key][2] - v[2], false, args.timer or nil, true, 0.6)
+                ease_value(v, 3, args[col_key][3] - v[3], false, args.timer or nil, true, 0.6)
+            else
+                local brightness = k == 'L' and 1.3 or k == 'D' and (args.special_colour and 0.4 or 0.7) or 0.9
+                if k == 'C' and args.special_colour then
+                    ease_value(v, 1, args.special_colour[1] - v[1], false, args.timer or nil, true, 0.6)
+                    ease_value(v, 2, args.special_colour[2] - v[2], false, args.timer or nil, true, 0.6)
+                    ease_value(v, 3, args.special_colour[3] - v[3], false, args.timer or nil, true, 0.6)
+                else
+                    ease_value(v, 1, args.new_colour[1] * brightness - v[1], false, args.timer or nil, true, 0.6)
+                    ease_value(v, 2, args.new_colour[2] * brightness - v[2], false, args.timer or nil, true, 0.6)
+                    ease_value(v, 3, args.new_colour[3] * brightness - v[3], false, args.timer or nil, true, 0.6)
+                end
+            end
+        end
+    end
+    if args.contrast then
+        ease_value(G.C.BACKGROUND, 'contrast', args.contrast - G.C.BACKGROUND.contrast, false, nil, true, 0.6)
+    end
+end
+
+---Modified `change_backgorund_colour_blind() to reset background, allows timer type to be passed through
+---@param state balatro.Game.StateEnum
+---@param timer balatro.TimerType
+function SCP.reset_background_color(state, timer)
+    local blindname = ((G.GAME.blind and G.GAME.blind.name ~= '' and G.GAME.blind.name) or 'Small Blind')
+    local blindname = (blindname == '' and 'Small Blind' or blindname)
+
+    if state == G.STATES.TAROT_PACK then
+        SCP.ease_background_colour_timer { new_colour = G.C.PURPLE, special_colour = darken(G.C.BLACK, 0.2), contrast = 1.5, timer = timer or nil }
+    elseif state == G.STATES.SPECTRAL_PACK then
+        SCP.ease_background_colour_timer { new_colour = G.C.SECONDARY_SET.Spectral, special_colour = darken(G.C.BLACK, 0.2), contrast = 2, timer = timer or nil }
+    elseif state == G.STATES.STANDARD_PACK then
+        SCP.ease_background_colour_timer { new_colour = darken(G.C.BLACK, 0.2), special_colour = G.C.RED, contrast = 3, timer = timer or nil }
+    elseif state == G.STATES.BUFFOON_PACK then
+        SCP.ease_background_colour_timer { new_colour = G.C.FILTER, special_colour = G.C.BLACK, contrast = 2, timer = timer or nil }
+    elseif state == G.STATES.PLANET_PACK then
+        SCP.ease_background_colour_timer { new_colour = G.C.BLACK, contrast = 3, timer = timer or nil }
+    elseif G.GAME.won then
+        SCP.ease_background_colour_timer { new_colour = G.C.BLIND.won, contrast = 1, timer = timer or nil }
+    elseif blindname == 'Small Blind' or blindname == 'Big Blind' or blindname == '' then
+        SCP.ease_background_colour_timer { new_colour = G.C.BLIND['Small'], contrast = 1, timer = timer or nil }
+    else
+        local boss_col = G.C.BLACK
+        for k, v in pairs(G.P_BLINDS) do
+            if v.name == blindname then
+                if v.boss.showdown then
+                    SCP.ease_background_colour_timer { new_colour = G.C.BLUE, special_colour = G.C.RED, tertiary_colour = darken(G.C.BLACK, 0.4), contrast = 3, timer = timer or nil }
+                    return
+                end
+                boss_col = v.boss_colour or G.C.BLACK
+            end
+        end
+        SCP.ease_background_colour_timer { new_colour = lighten(mix_colours(boss_col, G.C.BLACK, 0.3), 0.1), special_colour = boss_col, contrast = 2, timer = timer or nil }
+    end
+end
+
+--- Imitates `Card:start_dissolve()` but doesn't destroy the card
+---@param dissolve_colours? ColorHex|ColorHexRgb
+---@param silent? boolean
+---@param dissolve_time_fac? number
+---@param no_juice? boolean
+---@param reverse? boolean
+function Card:SCP_fake_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice, reverse)
+    dissolve_colours = dissolve_colours or (type(self.destroyed) == 'table' and self.destroyed.colours) or nil
+    dissolve_time_fac = dissolve_time_fac or (type(self.destroyed) == 'table' and self.destroyed.time) or nil
+    local dissolve_time = 0.7 * (dissolve_time_fac or 1)
+    self.dissolve = 0
+    self.dissolve_colours = dissolve_colours
+        or { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD, G.C.JOKER_GREY }
+    if not no_juice then self:juice_up() end
+    local childParts = Particles(0, 0, 0, 0, {
+        timer_type = 'TOTAL',
+        timer = 0.01 * dissolve_time,
+        scale = 0.1,
+        speed = 2,
+        lifespan = 0.7 * dissolve_time,
+        attach = self,
+        colours = self.dissolve_colours,
+        fill = true
+    })
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay = 0.7 * dissolve_time,
+        func = (function()
+            childParts:fade(0.3 * dissolve_time)
+            return true
+        end)
+    }))
+    if not silent then
+        G.E_MANAGER:add_event(Event({
+            blockable = false,
+            func = (function()
+                play_sound('whoosh2', math.random() * 0.2 + 0.9, 0.5)
+                play_sound('crumple' .. math.random(1, 5), math.random() * 0.2 + 0.9, 0.5)
+                return true
+            end)
+        }))
+    end
+    G.E_MANAGER:add_event(Event({
+        trigger = 'ease',
+        blockable = false,
+        ref_table = self,
+        ref_value = 'dissolve',
+        ease_to = 1,
+        delay = 1 * dissolve_time,
+        func = (function(t) return reverse and 1 - t or t end)
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay = 1.051 * dissolve_time,
+    }))
+end
+
+--- Transform a given `orig_card` into an instance of `new_card_id` with some extra flair
+---@param orig_card Card|table
+---@param new_card_id string
+function SCP.containment_breach(orig_card, new_card_id)
+    orig_card.scp_breach_started = true
+    for i = 0, 1, 0.01 do
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            blocking = false,
+            delay = 0.25 * (i * 100),
+            func = function()
+                orig_card:juice_up(0, i)
+                return true
+            end
+        }))
+    end
+    for ii = 0, 3, 1 do
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 3,
+            func = function()
+                SCP.ease_background_colour_timer({
+                    new_colour = mix_colours(G.C.BACKGROUND.C, HEX("FF0000"), 0.75),
+                    timer =
+                    'REAL'
+                })
+                play_sound("scp_alarm")
+                return true
+            end
+        }))
+
+        if ii == 2 then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    orig_card:SCP_fake_dissolve(nil, nil, 3)
+                    return true
+                end
+            }))
+        end
+
+        G.E_MANAGER:add_event(Event({
+            trigger = "after",
+            delay = 3,
+            func = function()
+                SCP.reset_background_color(G.STATE, 'REAL')
+                return true
+            end
+        }))
+    end
+    local _card
+    G.E_MANAGER:add_event(Event({
+        blocking = true,
+        func = function()
+            local area = orig_card.area or G.jokers
+            local place = 0
+
+            for k, v in ipairs(area.cards) do
+                if v == orig_card then
+                    place = k
+                end
+            end
+
+            orig_card:start_dissolve(nil, true, 0, true)
+            _card = SMODS.create_card({ key = new_card_id, skip_materialize = true, area = orig_card.area, no_edition = true })
+
+            _card.scp_breach_started = true
+            _card:add_to_deck()
+            area:emplace(_card, place)
+            _card.dissolve = 1
+
+            _card:SCP_fake_dissolve(nil, nil, 3, nil, true)
+
+            return true
+        end
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 1.5,
+        func = function()
+            _card.scp_breach_started = false
+            return true
+        end
+    }))
+end
+
+--- Transform a given `orig_card` into an instance of `new_card_id` with no flair
+---@param orig_card Card|table
+---@param new_card_id string
+function SCP.clean_swap(orig_card, new_card_id)
+    local _card
+    orig_card.scp_breach_started = true
+    G.E_MANAGER:add_event(Event({
+        blocking = true;
+        func = function()
+            orig_card:SCP_fake_dissolve(nil, nil, 3)
+            return true
+        end
+    }))
+    G.E_MANAGER:add_event(Event({
+        blocking = true,
+        func = function()
+            orig_card.scp_breach_started = true
+            local area = orig_card.area or G.jokers
+            local place = 0
+
+            for k, v in ipairs(area.cards) do
+                if v == orig_card then
+                    place = k
+                end
+            end
+
+            orig_card:start_dissolve(nil, true, 0, true)
+            _card = SMODS.create_card({ key = new_card_id, skip_materialize = true, area = orig_card.area, no_edition = true })
+
+            _card.scp_breach_started = true
+            _card:add_to_deck()
+            area:emplace(_card, place)
+            _card.dissolve = 1
+
+            _card:SCP_fake_dissolve(nil, nil, 3, nil, true)
+
+            return true
+        end
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 1.5,
+        func = function()
+            _card.scp_breach_started = false
+            return true
+        end
+    }))
 end
