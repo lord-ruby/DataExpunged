@@ -73,6 +73,8 @@ SMODS.Joker {
             end
         end
     end,
+    no_collection = true,
+    in_pool = function() return false end,
 }
 
 local get_blind_amount_orig = get_blind_amount
