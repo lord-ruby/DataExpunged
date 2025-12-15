@@ -369,6 +369,58 @@ return {
                     "when blind is {C:attention}selected{}"
                 }
             },
+            j_scp_7176 = {
+                name = {
+                    "SCP-7176",
+                    "{C:money,s:0.8}The Doctor in the White Room, Falling Harder"
+                },
+                info = {
+                    "{s:0.9}Item: {E:scp_hash}1{s:0.8}: SCP-7176",
+                    "{s:0.9}Object Class:{s:0.8} Euclid",
+                    "{s:0.9}Special Containment Procedures:",
+                    "{s:0.8}As the inclusion of SCP-7176-A into SCP-7176",
+                    "{s:0.8}makes it fundamentally self-containing,",
+                    "{s:0.8}no other containment procedures",
+                    "{s:0.8}are necessary for it at this time",
+                    "{s:0.9}Description:",
+                },
+                text = {
+                    "Prevents Death",
+                    "if chips scored",
+                    "are less than {C:attention}25%",
+                    "of required chips",
+                    "{C:green}#1# in #2#{} chance to self destruct",
+                    "and grant SCP-7176-A when triggered"
+                },
+                no_downsides_text = {
+                    "Prevents Death",
+                    "if chips scored",
+                    "are less than {C:attention}25%",
+                    "of required chips",
+                    "{C:green}#1# in #2#{} chance to self destruct",
+                    "when triggered"
+                }
+            },
+            ["j_scp_7176-A"] = {
+                name = {
+                    "SCP-7176-A",
+                    "{C:blue,s:0.8}Dr. Zastryal Vnutri"
+                },
+                info = {
+                    "{s:0.9}Item: {E:scp_hash}1{s:0.8}: SCP-7176-A",
+                    "{s:0.9}Object Class:{s:0.8} Thaumiel",
+                    "{s:0.9}Surveillance Video 7176/{E:scp_hash}1{s:0.9}276-GID:",
+                    "{s:0.8,C:money}Dr. Kelly{s:0.8}: You're not supposed to be here, -A.",
+                    "{s:0.8,C:blue}SCP-7176-A{s:0.8}: I know. I just wanted to see your face.",
+                    "{s:0.9}Description:",
+                },
+                text = {
+                    "{X:chips,C:white}X3{} Blind size",
+                    "Reverts to {C:attention}SCP-7176{} if the blind",
+                    "is beaten in one hand",
+                    "and scores double the requirement"
+                },
+            },
         },
         Enhanced = {
             m_scp_dissolved = {
@@ -529,6 +581,8 @@ return {
             k_inactive = "Inactive",
             k_active = "Active",
 
+            ph_scp_7176 = "All is quiet.",
+            ph_scp_7176_alt = "Odourless. Numb. Detached.",
             k_show_info = "TOGGLE INFO",
 
             k_scp_accessibility_mode = "Accessibility Mode",
