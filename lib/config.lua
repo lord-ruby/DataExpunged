@@ -150,7 +150,7 @@ local scpConfigTab = function()
 		ref_table = SCP.config,
 		ref_value = "accessibility_mode",
         text_colour = G.C.BLACK,
-        outline_colour = G.C.BLACK
+        outline_colour = G.C.BLACK,
 	})
 
     _nodes[#_nodes + 1] = create_toggle({

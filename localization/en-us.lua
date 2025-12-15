@@ -501,7 +501,7 @@ return {
                     "{C:red,s:1.5}#16#{s:1.5}#17# {C:red}#18#",
                 }
             },
-        }
+        },
     },
     misc = {
         dictionary = {
