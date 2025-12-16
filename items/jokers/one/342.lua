@@ -1,6 +1,7 @@
 SMODS.Joker({
 	key = "342",
-	pos = { x = 0, y = 0 },
+	pos = {x = 7, y = 0},
+    atlas = "customjokers",
 
 	blueprint_compat = false,
 	eternal_compat = true,

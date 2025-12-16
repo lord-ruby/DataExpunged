@@ -10,8 +10,8 @@ local rarities = {
 
 SMODS.Joker {
     key = "914",
-    pos = {x = 0, y = 0},
-    --atlas = "jokers",
+    pos = {x = 8, y = 0},
+    atlas = "customjokers",
 
     blueprint_compat = true,
     eternal_compat = true,

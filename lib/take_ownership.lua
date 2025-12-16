@@ -20,7 +20,7 @@ local Spectrals = {
                 delay = 0.7,
                 func = function()
                     local cards = {}
-                    for i = 1, card.ability.extra.cards do
+                    for i = 1, card.ability.extra do
                         local faces = {}
                         for _, rank_key in ipairs(SMODS.Rank.obj_buffer) do
                             local rank = SMODS.Ranks[rank_key]
@@ -73,7 +73,7 @@ local Spectrals = {
                 delay = 0.7,
                 func = function()
                     local cards = {}
-                    for i = 1, card.ability.extra.cards do
+                    for i = 1, card.ability.extra do
                         local cen_pool = {}
                         for _, enhancement_center in pairs(G.P_CENTER_POOLS["Enhanced"]) do
                             if enhancement_center.key ~= 'm_stone' and not enhancement_center.overrides_base_rank then
@@ -119,7 +119,7 @@ local Spectrals = {
                 delay = 0.7,
                 func = function()
                     local cards = {}
-                    for i = 1, card.ability.extra.cards do
+                    for i = 1, card.ability.extra do
                         local numbers = {}
                         for _, rank_key in ipairs(SMODS.Rank.obj_buffer) do
                             local rank = SMODS.Ranks[rank_key]
