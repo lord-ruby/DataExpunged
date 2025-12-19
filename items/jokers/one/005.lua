@@ -1,6 +1,7 @@
 SMODS.Joker {
     key = "005",
-    pos = {x = 0, y = 0},
+    pos = {x = 9, y = 0},
+    atlas = 'customjokers',
     config = { extra = { boo = true } },
     classification = "safe",
     cost = 4, -- dummy price, update later
