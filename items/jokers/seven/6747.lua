@@ -1,6 +1,7 @@
 SMODS.Joker {
     key = "6747",
-    pos = {x = 0, y = 0},
+    pos = {x = 0, y = 1},
+    atlas = 'customjokers',
     config = { extra = { active = false } },
     classification = "thaumiel",
     cost = 14,
@@ -58,7 +59,8 @@ SMODS.Joker {
 --Does nothing just -1 Joker slots until 6747-B is fufilled
 SMODS.Joker {
     key = "6747-A3",
-    pos = {x = 0, y = 0},
+    pos = {x = 1, y = 1},
+    atlas = 'customjokers',
     config = { },
     classification = "thaumiel",
     cost = 14,
@@ -72,7 +74,8 @@ SMODS.Joker {
 
 SMODS.Joker {
     key = "6747-B",
-    pos = {x = 0, y = 0},
+    pos = {x = 2, y = 1},
+    atlas = 'customjokers',
     config = { extra = {needed_sacrifices = 3, sacrifices = 0} },
     classification = "thaumiel",
     cost = 14,
@@ -150,7 +153,8 @@ SMODS.Joker {
 
 SMODS.Joker {
     key = "6747-C",
-    pos = {x = 0, y = 0},
+    pos = {x = 3, y = 1},
+    atlas = 'customjokers',
     config = {  },
     classification = "thaumiel",
     cost = 14,
