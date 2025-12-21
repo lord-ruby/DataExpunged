@@ -1,5 +1,3 @@
-G.ARGS.LOC_COLOURS["grey"] = G.C.GREY
-
 SMODS.Joker {
     key = "6219",
     pos = {x = 6, y = 1},

@@ -426,13 +426,13 @@ return {
             },
             j_scp_6219 = {
                 name = {
-                    "{C:grey}Abnormality-6219",
+                    "{C:black}Abnormality-6219",
                 },
                 info = {
-                    "{s:0.9}Item: {E:scp_hash}1{s:0.8}: {C:grey,s:0.8}Abnormality-6219",
+                    "{s:0.9}Item: {E:scp_hash}1{s:0.8}: Abnormality-6219",
                     "{s:0.9}Object Class:{s:0.8} Pending",
                     "{s:0.9}Special Containment Procedures:",
-                    "{C:grey,s:0.8}Abnormality-6219 {s:0.8}is contained within a windowless 5x5x5 meter",
+                    "{s:0.8}Abnormality-6219 is contained within a windowless 5x5x5 meter",
                     "{s:0.8}containment chamber with a reinforced locking mechanism.",
                     "{s:0.9}Description:",
                 },
