@@ -31,6 +31,7 @@ local tbl= {
 
     "items/jokers/three/2521",
 
+    "items/jokers/seven/6219",
     "items/jokers/seven/6747",
 
     "items/jokers/eight/7176",

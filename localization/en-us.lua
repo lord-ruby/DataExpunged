@@ -424,6 +424,33 @@ return {
                     "and scores double the requirement"
                 },
             },
+            j_scp_6219 = {
+                name = {
+                    "{C:grey}Abnormality-6219",
+                },
+                info = {
+                    "{s:0.9}Item: {E:scp_hash}1{s:0.8}: {C:grey,s:0.8}Abnormality-6219",
+                    "{s:0.9}Object Class:{s:0.8} Pending",
+                    "{s:0.9}Special Containment Procedures:",
+                    "{C:grey,s:0.8}Abnormality-6219 {s:0.8}is contained within a windowless 5x5x5 meter",
+                    "{s:0.8}containment chamber with a reinforced locking mechanism.",
+                    "{s:0.9}Description:",
+                },
+                text = {
+                    "{C:attention}Use{} Joker to gain {C:blue}+50{} Chips, {C:red}+5 {}Mult or {X:mult,C:white}X1{} XMult",
+                    "{C:green}#1# in #2#{} chance to",
+                    "reset and {C:red}destroy{} a random joker instead",
+                    "Resets self when scored",
+                    "{C:inactive}(Currently {C:blue}+#3#{}{C:inactive}, {C:red}+#4#{}{C:inactive}, {X:mult,C:white}X#5#{}{C:inactive})",
+                },
+                no_downsides_text = {
+                    "{C:attention}Use{} Joker to gain {C:blue}+50{} Chips, {C:red}+5 {}Mult or {X:mult,C:white}X1{} XMult",
+                    "{C:green}#1# in #2#{} chance to",
+                    "reset instead",
+                    "Resets self when scored",
+                    "{C:inactive}(Currently {C:blue}+#3#{}{C:inactive}, {C:red}+#4#{}{C:inactive}, {X:mult,C:white}X#5#{}{C:inactive})",
+                }
+            },
         },
         Enhanced = {
             m_scp_dissolved = {
@@ -573,6 +600,7 @@ return {
             -- not actually a class, SCP-914 just uses this for a special joker
             k_scp_junk = "Junk",
             k_scp_null = "#NULL", -- only used for scp-000, dont use it anywhere else kthx -fireice
+            k_scp_pending = "Pending",
             
             k_scp_914_processed = "Proccessed",
             k_rescore_ex = "Again!?",
@@ -587,6 +615,7 @@ return {
             ph_scp_7176 = "All is quiet.",
             ph_scp_7176_alt = "Odourless. Numb. Detached.",
             k_show_info = "TOGGLE INFO",
+            k_scp_use = "USE",
 
             k_scp_accessibility_mode = "Accessibility Mode",
             k_scp_default_info = "Show SCP info by default",

@@ -52,7 +52,7 @@ function SCP.localize_classification(center, rarity)
 end
 
 function SCP.get_rarity_colour(rarity, card, _c)
-    if _c.classification == "null" then return G.C.BLACK end
+    if _c.classification == "null" or _c.classification == "pending" then return G.C.BLACK end
     if not SCP.rarity_blacklist[rarity] and next(SMODS.find_card("j_scp_code_name_wjs")) then
         return G.C.RARITY.Common
     end
@@ -567,4 +567,71 @@ end
 G.FUNCS.show_info = function(e)
     e.config.ref_table.ability.show_info = not e.config.ref_table.ability.show_info
     e.config.ref_table:juice_up()
+end
+
+function SCP.use_lock()
+    return G.CONTROLLER.locked or G.CONTROLLER.locks.frame or (G.GAME and (G.GAME.STOP_USE or 0) > 0)
+end
+
+local G_UIDEF_use_and_sell_buttons_ref2 = G.UIDEF.use_and_sell_buttons
+function G.UIDEF.use_and_sell_buttons(card)
+    local orig = G_UIDEF_use_and_sell_buttons_ref2(card)
+    local center = card.config.center
+    if card.area == G.jokers and center.use_scp and type(center.use_scp) == "function" then
+        scp_use = {n=G.UIT.C, config={align = "cr"}, nodes={
+            {n=G.UIT.C, config={ref_table = card, align = "cm",padding = 0.1, r=0.08, minw = 1.25, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, button = 'use_scp', func = 'can_use_scp'}, nodes={
+              {n=G.UIT.B, config = {w=0.3,h=0.3}},
+              {n=G.UIT.C, config={align = "tm"}, nodes={
+                {n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
+                  {n=G.UIT.T, config={text = localize("k_scp_use"),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
+                }},
+              }}
+            }},
+        }}
+        table.insert(orig.nodes[1].nodes, 3, {n=G.UIT.R, config={align = 'cl'}, nodes={scp_use}})
+    end
+    return orig
+    
+end
+
+G.FUNCS.can_use_scp = function(e)
+    local center = e.config.ref_table.config.center
+    local card = e.config.ref_table
+if
+    not SCP.use_lock() and (center.can_use_scp and (center:can_use_scp(card) and 1) or 0) > 0
+    then
+        e.config.colour = G.C.IMPORTANT
+        e.config.button = "use_scp"
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+G.FUNCS.use_scp = function(e)
+    local center = e.config.ref_table.config.center
+    local card = e.config.ref_table
+    G.E_MANAGER:add_event(Event({
+            blocking = true,
+            func = function()
+                center:use_scp(card)
+                G.CONTROLLER.locks.use = true
+                card.states.hover.can = false
+                card.states.drag.can = false
+                card.states.click.can = false
+                return true
+            end
+    }))
+    G.E_MANAGER:add_event(Event({
+        blockable = true,
+        trigger = 'after',
+        delay = 1,
+            func = function()
+                G.CONTROLLER.locks.use = false
+                card.states.hover.can = true
+                card.states.drag.can = true
+                card.states.click.can = true
+                return true
+            end
+    }))
 end

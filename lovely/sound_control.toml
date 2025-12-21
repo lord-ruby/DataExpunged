@@ -1,0 +1,25 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+
+#janky hack, if you know a better way please implement -maxboi
+
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''
+G.ARGS.push.sound_settings = G.SETTINGS.SOUND
+'''
+position = "at"
+payload = '''
+if SCP and SCP.BLACKOUT_FRAMES and SCP.BLACKOUT_FRAMES > 0 then
+    local sound_manip = copy_table(G.SETTINGS.SOUND)
+    sound_manip.music_volume = 0
+    G.ARGS.push.sound_settings = sound_manip
+else
+    G.ARGS.push.sound_settings = G.SETTINGS.SOUND
+end
+'''
+match_indent = true
