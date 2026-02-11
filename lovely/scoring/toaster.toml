@@ -3,30 +3,17 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
+#SMODS.score_card() modifications for SCP-426
+
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''
 pattern = '''
-local in_scoring = scoring_hand and SMODS.in_scoring(card, context.scoring_hand)
+function SMODS.score_card(card, context)
 '''
-position = "at"
+position = "after"
 payload = '''
-local area = context.scoring_hand
-if context.cardarea == G.play and G.rubber_cards then area = G.rubber_cards.cards; context.scoring_hand = G.rubber_cards.cards; scoring_hand = G.rubber_cards.cards end
-local in_scoring = scoring_hand and SMODS.in_scoring(card, area)
-if (area[1]) == card and card.config.center.key == "j_entr_false_vacuum_collapse" then
-  in_scoring = true
-end
-if G.rescore_messages and G.rescore_messages[_] then
-  card_eval_status_text(
-    G.rescore_messages[_].card,
-    "extra",
-    nil,
-    nil,
-    nil,
-    { message = G.rescore_messages[_].message, colour = G.C.PURPLE}
-  )
-end
+local replacement
 '''
 match_indent = true
 times = 1
@@ -58,19 +45,6 @@ times = 1
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''
 pattern = '''
-function SMODS.score_card(card, context)
-'''
-position = "after"
-payload = '''
-local replacement
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/utils.lua"]'''
-pattern = '''
 local flags = SMODS.trigger_effects(effects, card)
 '''
 position = "at"
@@ -79,6 +53,8 @@ payload = '''
 '''
 match_indent = true
 times = 1
+
+# SMODS.calculate_destroying_cards() modifications for SCP-426
 
 [[patches]]
 [patches.pattern]
@@ -126,6 +102,8 @@ payload = '''
 match_indent = true
 times = 1
 
+# G.FUNCS.evaluate_play() modification for SCP-426
+
 [[patches]]
 [patches.pattern]
 target = '''functions/state_events.lua'''
@@ -158,9 +136,3 @@ payload = '''
 '''
 match_indent = true
 times = 1
-
-
-
-
-
-        

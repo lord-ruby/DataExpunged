@@ -3,8 +3,6 @@ version = "1.0.0"
 priority = 0
 dump_lua = true
 
-### This entire setup is pretty much carbon copied by ENNWAY's setup for murder joker. (I don't actually know frowned upon this is - MaxBoi)
-
 [[patches]]
 [patches.pattern]
 target = "main.lua"
