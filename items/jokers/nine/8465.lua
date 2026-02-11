@@ -47,7 +47,7 @@ SMODS.Joker {
                             }))
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    SCP.NOISE_FRAMES = 50
+                                    SCP.Shadervars.static.runtime = 50
                                     play_sound("scp_static")
                                     card.ability.dataexpunged_flipped = not card.ability.dataexpunged_flipped
                                     table.insert(G.playing_cards, _card)
@@ -66,10 +66,8 @@ SMODS.Joker {
                             local _card = context.scoring_hand[1]
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    SCP.NOISE_FRAMES = 50
+                                    SCP.Shadervars.static.runtime = 50
                                     play_sound("scp_static")
-                                    _card:start_dissolve({G.C.RED}, true, 0, true)
-                                    --G.discard:remove_card(_card)
                                     return true
                                 end
                             }))

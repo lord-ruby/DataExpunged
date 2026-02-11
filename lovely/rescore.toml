@@ -30,3 +30,137 @@ end
 '''
 match_indent = true
 times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+context.other_card = card
+'''
+position = "at"
+payload = '''
+        if G.toaster and not replacement then
+          for i,v in ipairs(G.toaster) do
+            if v.ability.extra.used and not v.ability.extra.scored then
+                replacement = v
+                v.ability.extra.scored = true
+                break
+            end
+          end
+        end
+        
+        context.other_card = replacement or card
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+function SMODS.score_card(card, context)
+'''
+position = "after"
+payload = '''
+local replacement
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+local flags = SMODS.trigger_effects(effects, card)
+'''
+position = "at"
+payload = '''
+      local flags = SMODS.trigger_effects(effects, replacement or card)
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+-- TARGET: card destroyed
+'''
+position = "after"
+payload = '''
+      local index
+      if scoring_hand and G.toaster then
+        for j,v in ipairs(G.beforetoastscoringhand) do
+          if card == v then
+            index = j
+          end
+        end
+      end
+        
+
+    if G.toaster and destroyed and index and G.toaster[index] then
+      G.toaster[index].getting_sliced = true
+            if SMODS.shatters(G.toaster[index]) then
+                G.toaster[index].shattered = true
+            else
+                G.toaster[index].destroyed = true
+            end
+            cards_destroyed[#cards_destroyed+1] = G.toaster[index]
+        goto continue
+    end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+cards_destroyed[#cards_destroyed+1] = card
+        end
+'''
+position = "after"
+payload = '''
+      ::continue::
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+-- TARGET: effects before scoring starts
+'''
+position = "after"
+payload = '''
+      local scoring_hand_count = 0
+    if G.toaster == nil then G.toaster = {} end
+    for i,v in ipairs(G.toaster) do
+        if scoring_hand_count < #scoring_hand then
+            v.ability.extra.used = true
+            scoring_hand_count = scoring_hand_count + 1
+        end
+    end
+    G.beforetoastscoringhand = SMODS.shallow_copy(scoring_hand)
+    
+    for i,v in ipairs(G.toaster) do
+        if v.ability.extra.used then
+            v.config.center = SMODS.shallow_copy(scoring_hand[i].config.center)
+            v.config.card = SMODS.shallow_copy(scoring_hand[i].config.card)
+            assert(SMODS.change_base(v, scoring_hand[i].config.card.suit, scoring_hand[i].config.value))
+
+            --context.full_hand[replace] = toaster
+            scoring_hand[i] = v
+            --scoring_hand = scoring_hand and context.scoring_hand or nil
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+        
