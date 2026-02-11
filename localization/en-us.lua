@@ -440,7 +440,7 @@ return {
                     "{C:attention}Use{} {C:inactive}Abnormality-6219{} to gain",
                     "{C:blue}+50{} Chips, {C:red}+5 {}Mult or {X:mult,C:white}X1{} XMult",
                     "{C:green}#1# in #2#{} chance to",
-                    "reset and {C:red}destroy{} a random joker instead",
+                    "{C:red}destroy{} a random joker instead",
                     "Resets self when scored",
                     "{C:inactive}(Currently {C:blue}+#3#{}{C:inactive}, {C:red}+#4#{}{C:inactive}, {X:mult,C:white}X#5#{}{C:inactive})",
                 },
@@ -448,7 +448,7 @@ return {
                     "{C:attention}Use{} {C:inactive}Abnormality-6219{} to gain",
                     "{C:blue}+50{} Chips, {C:red}+5 {}Mult or {X:mult,C:white}X1{} XMult",
                     "{C:green}#1# in #2#{} chance to",
-                    "reset instead",
+                    "{C:red}debuff{} a random joker instead",
                     "Resets self when scored",
                     "{C:inactive}(Currently {C:blue}+#3#{}{C:inactive}, {C:red}+#4#{}{C:inactive}, {X:mult,C:white}X#5#{}{C:inactive})",
                 }

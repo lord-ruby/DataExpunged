@@ -38,12 +38,15 @@ SMODS.Joker {
             card.ability.extra.mult = 0
             card.ability.extra.xmult = 1
             card.ability.extra.chips = 0
+            for i,v in ipairs(G.jokers.cards) do
+                SMODS.debuff_card(v, false, "SCP-6219")
+            end
         end
 
     end,
 
     can_use_scp = function(self, card)
-        if SCP.BLACKOUT_FRAMES > 0 then
+        if SCP.Shadervars.blackout.runtime > 0 then
             return false
         end
         return true
@@ -56,20 +59,17 @@ SMODS.Joker {
                 if not SMODS.pseudorandom_probability(card, 'applysilverrodtofae', card.ability.extra.numerator,
                     card.ability.extra.denominator, 'j_scp_6219')
                 then
-                    local var = pseudorandom_element({"mult", "xmult", "chips", "mult", "chips"}, "skinburns") or "chips"
+                    local var = pseudorandom_element({"mult", "xmult", "chips", "mult", "chips", "mult", "chips"}, "skinburns") or "chips"
                     card.ability.extra[var] = card.ability.extra[var] + card.ability.extra[var .. "_inc"]
                     card:juice_up()
                     play_sound(var == "chips" and "chips1" or var == "mult" and "multhit1" or var == "xmult" and "multhit2")
                 else
-                    card.ability.extra.mult = 0
-                    card.ability.extra.xmult = 1
-                    card.ability.extra.chips = 0
 
-                    SCP.BLACKOUT_FRAMES = 250
+                    SCP.Shadervars.blackout.runtime = 250
 
                     local list = {}
                     for i,v in ipairs(G.jokers.cards) do
-                        if v ~= card then
+                        if (((not SCP.downside_active(card)) and (not next(v.ability.debuff_sources))) or SCP.downside_active(card)) and v ~= card then
                             table.insert(list, v)
                         end
                         if #G.jokers.cards == 1 then
@@ -77,7 +77,7 @@ SMODS.Joker {
                         end
                     end
                     local to_kill = pseudorandom_element(list, "employeemissing")
-                    if to_kill then
+                    if SCP.downside_active(card) and to_kill then
                         G.E_MANAGER:add_event(Event({
                             blockable = false,
                             func = (function()
@@ -85,10 +85,31 @@ SMODS.Joker {
                                 play_sound('crumple'..math.random(1, 5), math.random()*0.2 + 0.9,0.5)
                             return true end)
                         }))
-                        to_kill:start_dissolve({G.C.RED}, true, 0, true)
+                        SMODS.destroy_cards(to_kill, false, true, true)
+                    elseif to_kill then
+                        SMODS.debuff_card(to_kill, true, "SCP-6219")
                     end
                 end
                 return true
+            end
+        }))
+        local _card = card
+        G.E_MANAGER:add_event(Event({
+            blockable = false,
+            blocking = false,
+            delay = 5,
+            func = function()
+                
+                if SCP.Shadervars.blackout.runtime <= 0 and not SCP.Shadervars.blackout.shown then
+                    if _card then _card.states.hover.can = true end
+                    if _card then _card.states.click.can = true end
+                    if _card then _card.states.drag.can = true end
+                    return true
+                end
+                _card.states.hover.can = false
+                _card.states.click.can = false
+                _card.states.drag.can = false
+                return false
             end
         }))
     end,

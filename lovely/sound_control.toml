@@ -14,7 +14,7 @@ G.ARGS.push.sound_settings = G.SETTINGS.SOUND
 '''
 position = "at"
 payload = '''
-if SCP and SCP.BLACKOUT_FRAMES and SCP.BLACKOUT_FRAMES > 0 then
+if SCP and SCP.Shadervars.blackout.runtime and SCP.Shadervars.blackout.runtime > 0 then
     local sound_manip = copy_table(G.SETTINGS.SOUND)
     sound_manip.music_volume = 0
     G.ARGS.push.sound_settings = sound_manip
