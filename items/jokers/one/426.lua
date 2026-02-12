@@ -4,10 +4,19 @@ SMODS.Joker {
     atlas = "customjokers",
     config = { },
     classification = "euclid",
-    cost = 1,
+    cost = 6,
     rarity = 2,
     calculate = function(self, card, context)
-    
+        if context.setting_blind and G.GAME.blind:get_type() == 'Boss' then
+            return {
+                func = function()
+                    SMODS.add_card({set = 'Enhanced', enhancement = 'm_scp_toaster', area = G.hand})
+                end
+            }
+        end
+    end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue +1] = G.P_CENTERS.m_scp_toaster
     end,
 }
 
@@ -55,6 +64,10 @@ SMODS.Enhancement {
             end
         end
     end,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'scp_impersonate', set = 'Other'}
+        return { vars = { card.ability.bonus } }
+    end,
 }
 
 local old_in_scoring = SMODS.in_scoring
@@ -81,4 +94,23 @@ G.FUNCS.evaluate_play = function(...)
     end
     G.toaster = nil
     G.toasterCopy = nil
+end
+
+local old_cardareas_shuffle = CardArea.shuffle
+
+function CardArea:shuffle(...)
+    old_cardareas_shuffle(self, ...)
+    if self == G.deck then
+        local toasters = {}
+        for i,v in ipairs(self.cards) do
+            if SMODS.has_enhancement(v, 'm_scp_toaster') then
+                table.insert(toasters, v)
+                table.remove(self.cards, i)
+            end
+        end
+        for i,v in ipairs(toasters) do
+            table.insert(self.cards, v)
+        end
+        self:set_ranks()
+    end
 end
