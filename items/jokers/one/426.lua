@@ -28,9 +28,10 @@ SMODS.Enhancement {
     no_rank = true,
     no_suit = true,
     always_scores = true,
-    scp_toaster = true,
     config = {
         bonus = 50,
+        scp_toaster = true,
+        scp_toaster_areas = {'hand'},
         extra = {
             used = false,
             scored = false,
@@ -73,14 +74,20 @@ function SCP.toaster_init()
 end
 
 SCP.id_to_toaster_old = {}
-
 function SCP.toaster_round_prep(scoring_hand)
     local toasters = {}
-    for i,v in ipairs(G.hand.cards) do
-        if v.config.center.scp_toaster then
-            table.insert(toasters, v)
+    for _, area in ipairs(SMODS.get_card_areas('playing_cards')) do
+        for i,v in ipairs(area.cards) do
+            if v.ability.scp_toaster and v.ability.scp_toaster_areas then
+                for __, allowed in ipairs(v.ability.scp_toaster_areas) do
+                    if G[allowed] == area then
+                        table.insert(toasters, v)
+                    end
+                end
+            end
         end
     end
+    
     local new_full_hand = {}
     local new_scoring_hand = {}
     if next(toasters) then
@@ -89,7 +96,7 @@ function SCP.toaster_round_prep(scoring_hand)
             if v == scoring_hand[scoring_index] and next(toasters) then
                 SCP.id_to_toaster_old[toasters[1].ID] = {
                     center = SMODS.shallow_copy(toasters[1].config.center),
-                    card = SMODS.shallow_copy(toasters[1].config.card), 
+                    card = SMODS.shallow_copy(toasters[1].config.card),
                     ability = SMODS.shallow_copy(toasters[1].ability),
                     suit = toasters[1].config.card.suit,
                     rank = toasters[1].config.card.value,
@@ -98,12 +105,13 @@ function SCP.toaster_round_prep(scoring_hand)
                 toasters[1].config.center = SMODS.shallow_copy(v.config.center)
                 toasters[1].config.card = SMODS.shallow_copy(v.config.card)
                 toasters[1].ability = SMODS.shallow_copy(v.ability)
-                toasters[1].config.center.scp_toaster = true
+                toasters[1].ability.scp_toaster = true
                 assert(SMODS.change_base(toasters[1], v.config.card.suit, v.config.card.value))
                 new_full_hand[#new_full_hand+1] = toasters[1]
                 new_scoring_hand[#new_scoring_hand+1] = toasters[1]
                 table.remove(toasters, 1)
                 scoring_index = scoring_index + 1
+                
             elseif v == scoring_hand[scoring_index] and not next(toasters) then
                 new_full_hand[#new_full_hand+1] = v
                 new_scoring_hand[#new_scoring_hand+1] = v
@@ -121,8 +129,8 @@ end
 
 function SCP.toaster_round_cleanup()
     for i,v in ipairs(G.toaster.cards) do
-        if v.config.center.scp_toaster then
-             local old = SCP.id_to_toaster_old[v.ID]
+        if v.ability.scp_toaster and SCP.id_to_toaster_old[v.ID] then
+            local old = SCP.id_to_toaster_old[v.ID]
             v.config.center = SMODS.shallow_copy(old.center)
             v.config.card = SMODS.shallow_copy(old.card)
             assert(SMODS.change_base(v, old.suit, old.rank))
@@ -137,14 +145,6 @@ function SCP.toaster_round_cleanup()
     end
     SCP.id_to_toaster_old = {}
     G.toaster.cards = {}
-end
-
-local old_in_scoring = SMODS.in_scoring
-function SMODS.in_scoring(card, ...)
-
-    if card.config.center.scp_impersonate then return true end
-    
-    return old_in_scoring(card, ...)
 end
 
 local old_cardareas_shuffle = CardArea.shuffle
