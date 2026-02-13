@@ -14,9 +14,9 @@ SMODS.Joker {
     classification = "proposal",
 
     calculate = function(self, card, context)
-        if context.after and #G.play.cards == 2 then
-            local c = G.play.cards[1]
-            local c2= G.play.cards[2]
+        if context.after and #context.full_hand == 2 then
+            local c = context.full_hand[1]
+            local c2= context.full_hand[2]
             G.E_MANAGER:add_event(Event{
                 func = function()
                     c:flip()
@@ -82,7 +82,7 @@ SMODS.Joker {
                     return true
                 end
             })
-            SMODS.destroy_cards(G.play.cards[2])
+            SMODS.destroy_cards(context.full_hand[2])
             return {
                 message = "Merged!"
             }

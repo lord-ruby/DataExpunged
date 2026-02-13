@@ -98,6 +98,8 @@ function SCP.toaster_round_prep(scoring_hand)
                     center = SMODS.shallow_copy(toasters[1].config.center),
                     card = SMODS.shallow_copy(toasters[1].config.card),
                     ability = SMODS.shallow_copy(toasters[1].ability),
+                    edition = toasters[1].edition and SMODS.shallow_copy(toasters[1].edition) or nil,
+                    seal = toasters[1].seal,
                     suit = toasters[1].config.card.suit,
                     rank = toasters[1].config.card.value,
                     played_ability = SMODS.shallow_copy(v.ability)
@@ -105,13 +107,15 @@ function SCP.toaster_round_prep(scoring_hand)
                 toasters[1].config.center = SMODS.shallow_copy(v.config.center)
                 toasters[1].config.card = SMODS.shallow_copy(v.config.card)
                 toasters[1].ability = SMODS.shallow_copy(v.ability)
+                toasters[1].edition = v.edition and SMODS.shallow_copy(v.edition) or nil
+                toasters[1].seal = v.seal
                 toasters[1].ability.scp_toaster = true
+                toasters[1].ability.scp_toaster_areas = SMODS.shallow_copy(SCP.id_to_toaster_old[toasters[1].ID].ability.scp_toaster_areas)
                 assert(SMODS.change_base(toasters[1], v.config.card.suit, v.config.card.value))
                 new_full_hand[#new_full_hand+1] = toasters[1]
                 new_scoring_hand[#new_scoring_hand+1] = toasters[1]
                 table.remove(toasters, 1)
                 scoring_index = scoring_index + 1
-                
             elseif v == scoring_hand[scoring_index] and not next(toasters) then
                 new_full_hand[#new_full_hand+1] = v
                 new_scoring_hand[#new_scoring_hand+1] = v
@@ -133,6 +137,8 @@ function SCP.toaster_round_cleanup()
             local old = SCP.id_to_toaster_old[v.ID]
             v.config.center = SMODS.shallow_copy(old.center)
             v.config.card = SMODS.shallow_copy(old.card)
+            v.edition = old.edition and SMODS.shallow_copy(old.edition) or nil
+            v.seal = old.seal
             assert(SMODS.change_base(v, old.suit, old.rank))
             for j, abil in pairs(v.ability) do
                 if type(abil) == 'number' then

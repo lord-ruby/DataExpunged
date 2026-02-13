@@ -30,7 +30,7 @@ SMODS.Joker {
             card.ability.extra.roll = SMODS.pseudorandom_probability(card, 'oohimdupingit', card.ability.extra.numerator,
                 card.ability.extra.denominator, 'j_scp_8465')
         end
-        if #G.play.cards == 1 then
+        if context.cardarea and #context.cardarea.cards == 1 then
             if card.ability.extra.roll then
                 if context.individual and context.cardarea == G.play and not context.end_of_round then
                     local orig_card = context.other_card
