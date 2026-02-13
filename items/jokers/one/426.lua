@@ -28,6 +28,7 @@ SMODS.Enhancement {
     no_rank = true,
     no_suit = true,
     always_scores = true,
+    scp_toaster = true,
     config = {
         bonus = 50,
         extra = {
@@ -37,32 +38,6 @@ SMODS.Enhancement {
     },
     calculate = function(self, card, context)
 
-        if context.press_play then
-            card.ability.extra.used = false
-            card.ability.extra.scored = false
-            
-            for i,v in ipairs (G.hand.cards) do
-                if v == card then
-                    if type(G.toaster) == 'table' then G.toaster[#G.toaster+1] = v else G.toaster = {}; G.toaster[#G.toaster+1] = v end
-                    if type(G.toasterCopy) == 'table' then 
-                        G.toasterCopy[#G.toasterCopy+1] = {
-                            center = SMODS.shallow_copy(v.config.center),
-                            card = SMODS.shallow_copy(v.config.card),
-                            suit = v.config.card.suit,
-                            rank = v.config.card.value
-                        }
-                    else
-                        G.toasterCopy = {} 
-                        G.toasterCopy[#G.toasterCopy+1] = {
-                            center = SMODS.shallow_copy(v.config.center),
-                            card = SMODS.shallow_copy(v.config.card),
-                            suit = v.config.card.suit,
-                            rank = v.config.card.value
-                        }
-                    end
-                end
-            end
-        end
     end,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {key = 'scp_impersonate', set = 'Other'}
@@ -70,30 +45,106 @@ SMODS.Enhancement {
     end,
 }
 
-local old_in_scoring = SMODS.in_scoring
-function SMODS.in_scoring(card, area, ...)
-    if G.beforetoastscoringhand then
-        for i,v in ipairs(G.beforetoastscoringhand) do
-            if v == card then
-                return true
+SCP.custom_card_areas = function(game)
+    game.toaster = CardArea(
+        nil, nil, nil, nil, {type = "scp_toaster", no_card_count = true, }
+    )
+    game.toaster.states.visible = false
+end
+
+function SCP.toaster_init()
+    --Jesse we need to cook
+    local g_play_metatable = getmetatable(G.play)
+    local g_toaster_metatable = getmetatable(G.toaster)
+
+    local equals_function = function(a,b)
+        if (rawequal(a, G.play) or rawequal(a, G.toaster)) and
+        (rawequal(b, G.play) or rawequal(b, G.toaster)) then
+            return true
+        end
+        return rawequal(a, b)
+    end
+
+    g_play_metatable.__eq = equals_function
+    g_toaster_metatable.__eq = equals_function
+
+    setmetatable(G.play, g_play_metatable)
+    setmetatable(G.toaster, g_play_metatable)
+end
+
+SCP.id_to_toaster_old = {}
+
+function SCP.toaster_round_prep(scoring_hand)
+    local toasters = {}
+    for i,v in ipairs(G.hand.cards) do
+        if v.config.center.scp_toaster then
+            table.insert(toasters, v)
+        end
+    end
+    local new_full_hand = {}
+    local new_scoring_hand = {}
+    if next(toasters) then
+        local scoring_index = 1
+        for i,v in ipairs(G.play.cards) do
+            if v == scoring_hand[scoring_index] and next(toasters) then
+                SCP.id_to_toaster_old[toasters[1].ID] = {
+                    center = SMODS.shallow_copy(toasters[1].config.center),
+                    card = SMODS.shallow_copy(toasters[1].config.card), 
+                    ability = SMODS.shallow_copy(toasters[1].ability),
+                    suit = toasters[1].config.card.suit,
+                    rank = toasters[1].config.card.value,
+                    played_ability = SMODS.shallow_copy(v.ability)
+                }
+                toasters[1].config.center = SMODS.shallow_copy(v.config.center)
+                toasters[1].config.card = SMODS.shallow_copy(v.config.card)
+                toasters[1].ability = SMODS.shallow_copy(v.ability)
+                toasters[1].config.center.scp_toaster = true
+                assert(SMODS.change_base(toasters[1], v.config.card.suit, v.config.card.value))
+                new_full_hand[#new_full_hand+1] = toasters[1]
+                new_scoring_hand[#new_scoring_hand+1] = toasters[1]
+                table.remove(toasters, 1)
+                scoring_index = scoring_index + 1
+            elseif v == scoring_hand[scoring_index] and not next(toasters) then
+                new_full_hand[#new_full_hand+1] = v
+                new_scoring_hand[#new_scoring_hand+1] = v
+                scoring_index = scoring_index + 1
+            else
+                new_full_hand[#new_full_hand+1] = v
+            end
+        end
+        return new_full_hand, new_scoring_hand
+    end
+
+    return {}, scoring_hand
+
+end
+
+function SCP.toaster_round_cleanup()
+    for i,v in ipairs(G.toaster.cards) do
+        if v.config.center.scp_toaster then
+             local old = SCP.id_to_toaster_old[v.ID]
+            v.config.center = SMODS.shallow_copy(old.center)
+            v.config.card = SMODS.shallow_copy(old.card)
+            assert(SMODS.change_base(v, old.suit, old.rank))
+            for j, abil in pairs(v.ability) do
+                if type(abil) == 'number' then
+                        v.ability[j] =  (abil - (old.played_ability[j] or 0)) + (old.ability[j] or 0)
+                else
+                    v.ability[j] = old.ability[j]
+                end
             end
         end
     end
-    
-    return old_in_scoring(card, area, ...)
+    SCP.id_to_toaster_old = {}
+    G.toaster.cards = {}
 end
 
-local old_evaluate_play = G.FUNCS.evaluate_play
+local old_in_scoring = SMODS.in_scoring
+function SMODS.in_scoring(card, ...)
 
-G.FUNCS.evaluate_play = function(...)
-    old_evaluate_play(...)
-    for i,v in ipairs(G.toaster) do
-        v.config.center = SMODS.shallow_copy(G.toasterCopy[i].center)
-        v.config.card = SMODS.shallow_copy(G.toasterCopy[i].card)
-        assert(SMODS.change_base(v, G.toasterCopy[i].suit, G.toasterCopy[i].rank))
-    end
-    G.toaster = nil
-    G.toasterCopy = nil
+    if card.config.center.scp_impersonate then return true end
+    
+    return old_in_scoring(card, ...)
 end
 
 local old_cardareas_shuffle = CardArea.shuffle
