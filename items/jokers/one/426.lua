@@ -1,6 +1,6 @@
 SMODS.Joker {
     key = "426",
-    pos = {x = 0, y = 0},
+    pos = {x = 6, y = 1},
     atlas = "customjokers",
     config = { },
     classification = "euclid",
@@ -45,13 +45,6 @@ SMODS.Enhancement {
         return { vars = { card.ability.bonus } }
     end,
 }
-
-SCP.custom_card_areas = function(game)
-    game.toaster = CardArea(
-        nil, nil, nil, nil, {type = "scp_toaster", no_card_count = true, }
-    )
-    game.toaster.states.visible = false
-end
 
 function SCP.toaster_init()
     --Jesse we need to cook
