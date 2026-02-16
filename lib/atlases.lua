@@ -27,20 +27,6 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
-    key = "noise",
-    path = "noise.png",
-    px = 32,
-    py = 32,
-}
-
-SMODS.Atlas {
-    key = "blackout",
-    path = "blackout.png",
-    px = 32,
-    py = 32,
-}
-
-SMODS.Atlas {
     key = "2521_info",
     path = "2521_info.png",
     px = 61,

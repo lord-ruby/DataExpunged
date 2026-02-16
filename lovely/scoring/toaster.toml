@@ -1,0 +1,87 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+#Set up metatables at the right time
+[[patches]]
+[patches.pattern]
+target = '''game.lua'''
+pattern = '''
+}))
+    
+end
+'''
+position = "at"
+payload = '''
+}))
+SCP.toaster_init()
+end
+'''
+match_indent = true
+times = 1
+
+# If toaster cards are present, ready the relevant calculate things
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+scoring_hand = final_scoring_hand
+'''
+position = "after"
+payload = '''
+      G.toaster.cards, scoring_hand = SCP.toaster_round_prep(scoring_hand)
+'''
+match_indent = true
+times = 1
+
+# Clean up card area and reset toaster cards
+[[patches]]
+[patches.pattern]
+target = '''functions/state_events.lua'''
+pattern = '''
+-- TARGET: effects after hand evaluation
+'''
+position = "after"
+payload = '''
+      SCP.toaster_round_cleanup()
+'''
+match_indent = true
+times = 1
+
+
+[[patches]]
+[patches.regex]
+target = "functions/state_events.lua"
+pattern = "(.*)(full_hand = G.play.cards)(.*)"
+root_capture = '2'
+position = 'at'
+payload = 'full_hand = next(G.toaster.cards) and G.toaster.cards or G.play.cards'
+times = 18
+
+[[patches]]
+[patches.regex]
+target = "functions/state_events.lua"
+pattern = "(.*)(cardarea = v)(.*)"
+root_capture = '2'
+position = 'at'
+payload = 'cardarea = (v == G.play and next(G.toaster.cards)) and G.toaster or v'
+times = 7
+
+# Weird jank with cardareas and 2nd runs and this was the simplest fix :sob:
+[[patches]]
+[patches.pattern]
+target = '''cardarea.lua'''
+pattern = '''
+if (self == G.hand or self == G.deck or self == G.discard or self == G.play) and G.view_deck and G.view_deck[1] and G.view_deck[1].cards then return end
+'''
+position = "after"
+payload = '''
+      if self.config.type == 'scp_toaster' then
+          if not self.cards then
+            self.cards = {}
+          end
+      end
+'''
+match_indent = true
+times = 1

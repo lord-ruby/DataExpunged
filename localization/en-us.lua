@@ -440,7 +440,7 @@ return {
                     "{C:attention}Use{} {C:inactive}Abnormality-6219{} to gain",
                     "{C:blue}+50{} Chips, {C:red}+5 {}Mult or {X:mult,C:white}X1{} XMult",
                     "{C:green}#1# in #2#{} chance to",
-                    "reset and {C:red}destroy{} a random joker instead",
+                    "{C:red}destroy{} a random joker instead",
                     "Resets self when scored",
                     "{C:inactive}(Currently {C:blue}+#3#{}{C:inactive}, {C:red}+#4#{}{C:inactive}, {X:mult,C:white}X#5#{}{C:inactive})",
                 },
@@ -448,7 +448,7 @@ return {
                     "{C:attention}Use{} {C:inactive}Abnormality-6219{} to gain",
                     "{C:blue}+50{} Chips, {C:red}+5 {}Mult or {X:mult,C:white}X1{} XMult",
                     "{C:green}#1# in #2#{} chance to",
-                    "reset instead",
+                    "{C:red}debuff{} a random joker instead",
                     "Resets self when scored",
                     "{C:inactive}(Currently {C:blue}+#3#{}{C:inactive}, {C:red}+#4#{}{C:inactive}, {X:mult,C:white}X#5#{}{C:inactive})",
                 }
@@ -474,6 +474,24 @@ return {
                     "The chance increases for each round beaten"
                 },
             },
+            j_scp_426 = {
+                name = {
+                    "SCP-426",
+                    "{C:uncommon,s:0.8}I am a Toaster"
+                },
+                info = {
+                    "{s:0.9}Item: {E:scp_hash}1{s:0.8}: SCP-426",
+                    "{s:0.9}Object Class:{s:0.8} Euclid",
+                    "{s:0.9}Special Containment Procedures:",
+                    "{s:0.8}I am to be sealed in a chamber with no",
+                    "{s:0.8}windows through which I may be viewed.",
+                    "{s:0.9}Description:",
+                },
+                text = {
+                    "I give you a {C:attention}Toaster{}",
+                    "at the start of the boss blind"
+                },
+            },
         },
         Enhanced = {
             m_scp_dissolved = {
@@ -496,7 +514,19 @@ return {
                     "when triggered",
                     "{C:red}Self-destructs{} at end of round"
                 }
-            }
+            },
+            m_scp_toaster = {
+                name = "Toaster",
+                text = {
+                    "{C:chips}+#1#{} Chips",
+                    "No rank or suit",
+                    "Shuffled first",
+                    "into the deck",
+                    "When held in hand,",
+                    "{C:attention}impersonates{} first",
+                    "scored card"
+                }
+            },
         },
         Spectral = {
             c_familiar_nodownside = {
@@ -607,6 +637,17 @@ return {
                 }
             },
         },
+        Other = {
+            scp_impersonate = {
+                name = "Impersonate",
+                text = {
+                    "Modifications to the",
+                    "impersonated card",
+                    "apply to this card",
+                    "instead"
+                }
+            }
+        }
     },
     misc = {
         dictionary = {

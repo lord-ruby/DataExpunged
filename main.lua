@@ -14,6 +14,7 @@ local tbl= {
     "lib/frame_dependent",
     "lib/shaders",
     "lib/drawsteps",
+    "lib/cardareas",
 
     "items/jokers/one/000",
 
@@ -25,6 +26,7 @@ local tbl= {
     "items/jokers/one/005",
     "items/jokers/one/055",
     "items/jokers/one/342",
+    "items/jokers/one/426",
     "items/jokers/one/914",
 
     "items/jokers/two/1546",

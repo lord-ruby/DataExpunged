@@ -78,7 +78,7 @@ SMODS.Enhancement {
 			local index
 			local cond
 			local cards = {}
-			for i, v in pairs(G.play.cards) do
+			for i, v in pairs(context.full_hand) do
 				if not v.getting_sucked then
 					cards[#cards+1] = v
 				end

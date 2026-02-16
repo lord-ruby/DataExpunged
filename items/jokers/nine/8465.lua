@@ -30,7 +30,7 @@ SMODS.Joker {
             card.ability.extra.roll = SMODS.pseudorandom_probability(card, 'oohimdupingit', card.ability.extra.numerator,
                 card.ability.extra.denominator, 'j_scp_8465')
         end
-        if #G.play.cards == 1 then
+        if context.cardarea and #context.cardarea.cards == 1 then
             if card.ability.extra.roll then
                 if context.individual and context.cardarea == G.play and not context.end_of_round then
                     local orig_card = context.other_card
@@ -47,7 +47,7 @@ SMODS.Joker {
                             }))
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    SCP.NOISE_FRAMES = 50
+                                    SCP.Shadervars.static.runtime = 60
                                     play_sound("scp_static")
                                     card.ability.dataexpunged_flipped = not card.ability.dataexpunged_flipped
                                     table.insert(G.playing_cards, _card)
@@ -66,10 +66,8 @@ SMODS.Joker {
                             local _card = context.scoring_hand[1]
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    SCP.NOISE_FRAMES = 50
+                                    SCP.Shadervars.static.runtime = 60
                                     play_sound("scp_static")
-                                    _card:start_dissolve({G.C.RED}, true, 0, true)
-                                    --G.discard:remove_card(_card)
                                     return true
                                 end
                             }))
