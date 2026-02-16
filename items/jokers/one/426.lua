@@ -101,7 +101,7 @@ function SCP.toaster_round_prep(scoring_hand)
                 toasters[1].config.card = SMODS.shallow_copy(v.config.card)
                 toasters[1].ability = SMODS.shallow_copy(v.ability)
                 toasters[1].edition = v.edition and SMODS.shallow_copy(v.edition) or nil
-                toasters[1].seal = v.seal
+                toasters[1].seal = type(v.seal) == 'table' and SMODS.shallow_copy(v.seal) or v.seal or nil
                 toasters[1].ability.scp_toaster = true
                 toasters[1].ability.scp_toaster_areas = SMODS.shallow_copy(SCP.id_to_toaster_old[toasters[1].ID].ability.scp_toaster_areas)
                 assert(SMODS.change_base(toasters[1], v.config.card.suit, v.config.card.value))
@@ -127,18 +127,28 @@ end
 function SCP.toaster_round_cleanup()
     for i,v in ipairs(G.toaster.cards) do
         if v.ability.scp_toaster and SCP.id_to_toaster_old[v.ID] then
+
             local old = SCP.id_to_toaster_old[v.ID]
+
             v.config.center = SMODS.shallow_copy(old.center)
             v.config.card = SMODS.shallow_copy(old.card)
             v.edition = old.edition and SMODS.shallow_copy(old.edition) or nil
-            v.seal = old.seal
+            v.seal = type(old.seal) == 'table' and SMODS.shallow_copy(old.seal) or old.seal or nil
             assert(SMODS.change_base(v, old.suit, old.rank))
+
+            local old_table = old.ability
             for j, abil in pairs(v.ability) do
                 if type(abil) == 'number' then
-                        v.ability[j] =  (abil - (old.played_ability[j] or 0)) + (old.ability[j] or 0)
+                    v.ability[j] =  (abil - (type(old.played_ability[j]) == 'number' and old.played_ability[j] or 0)) + (type(old.ability[j]) == 'number' and old.ability[j] or 0)
+                    old_table[j] = nil
                 else
-                    v.ability[j] = old.ability[j]
+                    v.ability[j] = type(old.ability[j]) == 'table' and SMODS.shallow_copy(old.ability[j]) or old.ability[j]
+                    old_table[j] = nil
                 end
+            end
+            
+            for j, abil in pairs(old_table) do
+                v.ability[j] = type(abil) == 'table' and SMODS.shallow_copy(abil) or abil
             end
         end
     end
